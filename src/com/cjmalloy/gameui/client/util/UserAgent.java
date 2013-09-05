@@ -7,7 +7,11 @@ public class UserAgent
 
     public static boolean isTablet()
     {
-        if (Navigator.getUserAgent().contains("iPad") || Navigator.getUserAgent().contains("Android")) { return true; }
+        if (Navigator.getUserAgent().contains("iPad") ||
+            Navigator.getUserAgent().contains("Android"))
+        {
+            return true;
+        }
         return false;
     }
 }

@@ -19,47 +19,6 @@ import com.google.gwt.canvas.dom.client.Context2d;
 public class Button extends UiElement implements MouseDownHandler, MouseMoveHandler, MouseUpHandler, MouseClickHandler
 {
 
-    public static abstract class ButtonSkin
-    {
-
-        public Map<ButtonState, IRender> states = new HashMap<ButtonState, IRender>();
-        public int width = 50, height = 50;
-
-        public IRender getFace(ButtonState state)
-        {
-            if (states.containsKey(state)) { return states.get(state); }
-
-            switch (state)
-            {
-            case UP:
-                return null;
-            case DOWN:
-                return getFace(ButtonState.UP);
-            case UP_HOVERING:
-                return getFace(ButtonState.UP);
-            case DOWN_HOVERING:
-                return getFace(ButtonState.DOWN);
-            case UP_PRESSED:
-                return getFace(ButtonState.UP_HOVERING);
-            case DOWN_PRESSED:
-                return getFace(ButtonState.DOWN_HOVERING);
-            case UP_DISABLED:
-                return getFace(ButtonState.UP);
-            case DOWN_DISABLED:
-                return getFace(ButtonState.DOWN);
-            default:
-                throw new Error("Invalid button state");
-            }
-        }
-
-        public abstract void setText(String text);
-    }
-
-    public enum ButtonState
-    {
-        UP, UP_PRESSED, UP_HOVERING, UP_DISABLED, DOWN, DOWN_PRESSED, DOWN_HOVERING, DOWN_DISABLED,
-    }
-
     static ButtonSkin DEFAULT_BUTTON_SKIN = new DefaultButtonSkin();
 
     public boolean toggle = false;
@@ -151,6 +110,14 @@ public class Button extends UiElement implements MouseDownHandler, MouseMoveHand
         g.restore();
     }
 
+    public void setButtonSkin(ButtonSkin skin)
+    {
+        this.skin = skin;
+        this.width = skin.width;
+        this.height = skin.height;
+        redrawNeeded = true;
+    }
+
     public void setDown(boolean value)
     {
         if (toggle && down != value)
@@ -224,11 +191,44 @@ public class Button extends UiElement implements MouseDownHandler, MouseMoveHand
         allowClick = false;
     }
 
-    private void setButtonSkin(ButtonSkin skin)
+    public static abstract class ButtonSkin
     {
-        this.skin = skin;
-        this.width = skin.width;
-        this.height = skin.height;
-        redrawNeeded = true;
+
+        public Map<ButtonState, IRender> states = new HashMap<ButtonState, IRender>();
+        public int width = 50, height = 50;
+
+        public IRender getFace(ButtonState state)
+        {
+            if (states.containsKey(state)) { return states.get(state); }
+
+            switch (state)
+            {
+            case UP:
+                return null;
+            case DOWN:
+                return getFace(ButtonState.UP);
+            case UP_HOVERING:
+                return getFace(ButtonState.UP);
+            case DOWN_HOVERING:
+                return getFace(ButtonState.DOWN);
+            case UP_PRESSED:
+                return getFace(ButtonState.UP_HOVERING);
+            case DOWN_PRESSED:
+                return getFace(ButtonState.DOWN_HOVERING);
+            case UP_DISABLED:
+                return getFace(ButtonState.UP);
+            case DOWN_DISABLED:
+                return getFace(ButtonState.DOWN);
+            default:
+                throw new Error("Invalid button state");
+            }
+        }
+
+        public abstract void setText(String text);
+    }
+
+    public enum ButtonState
+    {
+        UP, UP_PRESSED, UP_HOVERING, UP_DISABLED, DOWN, DOWN_PRESSED, DOWN_HOVERING, DOWN_DISABLED,
     }
 }

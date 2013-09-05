@@ -10,44 +10,6 @@ import com.cjmalloy.gameui.client.component.UiElement;
 public class EventBus
 {
 
-    public class HandlerRegistration
-    {
-
-        private Listener listener;
-        private EventType<? extends Event> type;
-
-        private HandlerRegistration(EventType<? extends Event> t, Listener l)
-        {
-            this.listener = l;
-            this.type = t;
-        }
-
-        public void removeHandler()
-        {
-            if (null != listener)
-            {
-                List<Listener> listeners = ensureListeners(type);
-                listeners.remove(listener);
-                listener = null;
-            }
-        }
-    }
-
-    private class Listener
-    {
-
-        public boolean ignoresCapture;
-        public UiElement source;
-        public EventHandler handler;
-
-        public Listener(UiElement source, EventHandler handler, boolean ignoresCapture)
-        {
-            this.ignoresCapture = ignoresCapture;
-            this.source = source;
-            this.handler = handler;
-        }
-    }
-
     private static final EventBus INSTANCE = new EventBus();
 
     public static EventBus get()
@@ -78,7 +40,7 @@ public class EventBus
                 e.source = l.source;
                 e.callHandler(l.handler);
             }
-            if (e.stopPropogation) { return; }
+            if (e.stopPropogation) return;
         }
     }
 
@@ -91,5 +53,42 @@ public class EventBus
             map.put(type, listeners);
         }
         return listeners;
+    }
+
+    public class HandlerRegistration
+    {
+
+        private Listener listener;
+        private EventType<? extends Event> type;
+
+        private HandlerRegistration(EventType<? extends Event> t, Listener l)
+        {
+            this.listener = l;
+            this.type = t;
+        }
+
+        public void removeHandler()
+        {
+            if (null == listener) return;
+
+            List<Listener> listeners = ensureListeners(type);
+            listeners.remove(listener);
+            listener = null;
+        }
+    }
+
+    private class Listener
+    {
+
+        public boolean ignoresCapture;
+        public UiElement source;
+        public EventHandler handler;
+
+        public Listener(UiElement source, EventHandler handler, boolean ignoresCapture)
+        {
+            this.ignoresCapture = ignoresCapture;
+            this.source = source;
+            this.handler = handler;
+        }
     }
 }

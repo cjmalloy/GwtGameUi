@@ -5,6 +5,13 @@ import java.util.List;
 
 import com.google.gwt.canvas.dom.client.Context2d;
 
+/**
+ * This is the base class for all container type widgets in this
+ * library.
+ *
+ * @author chris
+ *
+ */
 public class Panel extends UiElement
 {
 

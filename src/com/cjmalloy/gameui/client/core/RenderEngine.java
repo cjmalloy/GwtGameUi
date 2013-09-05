@@ -35,61 +35,56 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Composite;
 
+/**
+ * This is the main class for this UI library, and the only object that contains
+ * references to HTML elements. This is an absolute panel that wraps a variable
+ * number of canvas objects called layers.
+ *
+ * <ol>
+ * <li>Add this object to your HTML DOM</li>
+ * <li>Create as many layers as necessary</li>
+ * <li>Begin to add widgets provided by this library to the various layers</li>
+ * </ol>
+ *
+ * @author chris
+ *
+ */
 public class RenderEngine extends Composite implements HasMouseDownHandlers, HasMouseUpHandlers, HasMouseMoveHandlers,
         HasMouseWheelHandlers, MouseDownHandler, MouseUpHandler, MouseMoveHandler, MouseWheelHandler
 {
 
-    private class Layer extends Composite
+    /* ************************************************
+     *                 DEBUG                          *
+     **************************************************/
+    private JavaScriptObject stats;
+
+    public void attachProfiler()
     {
-
-        private final Canvas canvas;
-        private final Context2d g;
-
-        private List<UiElement> children = new ArrayList<UiElement>();
-
-        public Layer(int width, int height)
+        if (null == stats)
         {
-            canvas = GraphicsUtil.createCanvas(width, height);
-            initWidget(canvas);
-            g = canvas.getContext2d();
-        }
-
-        public void add(UiElement child)
-        {
-            if (children.indexOf(child) == -1)
-            {
-                children.add(child);
-            }
-        }
-
-        public void remove(UiElement child)
-        {
-            if (children.indexOf(child) != -1)
-            {
-                children.remove(child);
-            }
-        }
-
-        public void render(double timestamp)
-        {
-            g.save();
-            g.translate(0.5, 0.5);
-            for (UiElement r : children)
-            {
-                r.redrawIfNecessary(g, timestamp);
-            }
-            g.restore();
-        }
-
-        public void resize(int w, int h)
-        {
-            GraphicsUtil.resizeCanvas(canvas, w, h);
-            for (UiElement r : children)
-            {
-                r.redrawNeeded();
-            }
+            stats = createStats();
         }
     }
+    private static final native void begin(JavaScriptObject stats) /*-{
+        stats.begin();
+    }-*/;
+
+    private static final native JavaScriptObject createStats() /*-{
+        var stats = new $wnd.Stats();
+        stats.setMode(0); // 0: fps, 1: ms
+
+        // Align top-left
+        stats.domElement.style.cssFloat = 'right';
+
+        $doc.body.appendChild(stats.domElement);
+
+        return stats;
+    }-*/;
+
+    private static final native void end(JavaScriptObject stats) /*-{
+        stats.end();
+    }-*/;
+    /* ************************************************/
 
     private static final int MAX_CLICK_DIST_SQUARED = 16;
     private static final int RESIZE_DELAY = 30;
@@ -100,7 +95,6 @@ public class RenderEngine extends Composite implements HasMouseDownHandlers, Has
     private final AnimationScheduler scheduler = AnimationScheduler.get();
     private final AnimationCallback callback = new AnimationCallback()
     {
-
         @Override
         public void execute(double timestamp)
         {
@@ -125,8 +119,6 @@ public class RenderEngine extends Composite implements HasMouseDownHandlers, Has
     private int height;
 
     private Point clickStart = new Point();
-
-    private JavaScriptObject stats;
 
     public RenderEngine(int width, int height)
     {
@@ -193,14 +185,6 @@ public class RenderEngine extends Composite implements HasMouseDownHandlers, Has
     public HandlerRegistration addResizeHandler(ResizeHandler handler)
     {
         return Window.addResizeHandler(handler);
-    }
-
-    public void attachProfiler()
-    {
-        if (null == stats)
-        {
-            stats = createStats();
-        }
     }
 
     @Override
@@ -297,23 +281,55 @@ public class RenderEngine extends Composite implements HasMouseDownHandlers, Has
         }
     }
 
-    private static final native void begin(JavaScriptObject stats) /*-{
-        stats.begin();
-    }-*/;
+    private class Layer extends Composite
+    {
 
-    private static final native JavaScriptObject createStats() /*-{
-        var stats = new $wnd.Stats();
-        stats.setMode(0); // 0: fps, 1: ms
+        private final Canvas canvas;
+        private final Context2d g;
 
-        // Align top-left
-        stats.domElement.style.cssFloat = 'right';
+        private List<UiElement> children = new ArrayList<UiElement>();
 
-        $doc.body.appendChild(stats.domElement);
+        public Layer(int width, int height)
+        {
+            canvas = GraphicsUtil.createCanvas(width, height);
+            initWidget(canvas);
+            g = canvas.getContext2d();
+        }
 
-        return stats;
-    }-*/;
+        public void add(UiElement child)
+        {
+            if (children.indexOf(child) == -1)
+            {
+                children.add(child);
+            }
+        }
 
-    private static final native void end(JavaScriptObject stats) /*-{
-        stats.end();
-    }-*/;
+        public void remove(UiElement child)
+        {
+            if (children.indexOf(child) != -1)
+            {
+                children.remove(child);
+            }
+        }
+
+        public void render(double timestamp)
+        {
+            g.save();
+            g.translate(0.5, 0.5);
+            for (UiElement r : children)
+            {
+                r.redrawIfNecessary(g, timestamp);
+            }
+            g.restore();
+        }
+
+        public void resize(int w, int h)
+        {
+            GraphicsUtil.resizeCanvas(canvas, w, h);
+            for (UiElement r : children)
+            {
+                r.redrawNeeded();
+            }
+        }
+    }
 }

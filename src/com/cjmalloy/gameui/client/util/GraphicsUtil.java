@@ -33,7 +33,6 @@ public class GraphicsUtil
 
     public static void drawRoundedRect(Context2d g, double x, double y, double width, double height, double radius)
     {
-
         g.save();
         g.translate(x, y);
         g.moveTo(radius, 0);

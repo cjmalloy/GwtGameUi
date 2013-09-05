@@ -6,5 +6,4 @@ public interface IRender
 {
 
     void render(Context2d g, double timestamp);
-
 }

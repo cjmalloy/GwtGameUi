@@ -18,6 +18,12 @@ import com.cjmalloy.mathlib.shared.linear.Point;
 import com.cjmalloy.mathlib.shared.linear.Rect;
 import com.google.gwt.canvas.dom.client.Context2d;
 
+/**
+ * This is the base class for all Widgets in this library.
+ *
+ * @author chris
+ *
+ */
 public abstract class UiElement implements IRender, HasMouseHandlers
 {
 
@@ -102,6 +108,12 @@ public abstract class UiElement implements IRender, HasMouseHandlers
             t = t.parent;
         }
         return l;
+    }
+
+    public void moveTo(Point p)
+    {
+        x = p.x;
+        y = p.y;
     }
 
     public void redrawIfNecessary(Context2d g, double timestamp)
