@@ -1,7 +1,7 @@
 package com.cjmalloy.gameui.client.component;
 
-import com.cjmalloy.gameui.client.component.Button.ButtonSkin;
 import com.cjmalloy.gameui.client.component.Button.ButtonState;
+import com.cjmalloy.gameui.client.component.skin.ButtonSkin;
 import com.cjmalloy.gameui.client.event.DragMoveEvent;
 import com.cjmalloy.gameui.client.event.DragMoveHandler;
 import com.cjmalloy.mathlib.shared.linear.Point;

@@ -1,10 +1,11 @@
 package com.cjmalloy.gameui.client.component.skin;
 
-import com.cjmalloy.gameui.client.component.Button.ButtonSkin;
 import com.cjmalloy.gameui.client.component.Button.ButtonState;
 import com.cjmalloy.gameui.client.core.IRender;
 import com.cjmalloy.gameui.client.util.GraphicsUtil;
 import com.google.gwt.canvas.dom.client.Context2d;
+import com.google.gwt.canvas.dom.client.Context2d.TextAlign;
+import com.google.gwt.canvas.dom.client.Context2d.TextBaseline;
 
 public class DefaultButtonSkin extends ButtonSkin
 {
@@ -19,10 +20,11 @@ public class DefaultButtonSkin extends ButtonSkin
             g.setFillStyle("#999");
             g.setStrokeStyle("#333");
             g.beginPath();
-            GraphicsUtil.drawRoundedRect(g, 0.5, 0.5, width - 0.5, height - 0.5, 8);
+            GraphicsUtil.drawRoundedRect(g, 0.5, 0.5, width - 1, height - 1, 8);
             g.closePath();
             g.fill();
             g.stroke();
+            renderText(g);
             g.restore();
         }
     };
@@ -36,10 +38,11 @@ public class DefaultButtonSkin extends ButtonSkin
             g.setFillStyle("#333");
             g.setStrokeStyle("#999");
             g.beginPath();
-            GraphicsUtil.drawRoundedRect(g, 0.5, 0.5, width - 0.5, height - 0.5, 8);
+            GraphicsUtil.drawRoundedRect(g, 0.5, 0.5, width - 1, height - 1, 8);
             g.closePath();
             g.fill();
             g.stroke();
+            renderText(g);
             g.restore();
         }
     };
@@ -53,10 +56,11 @@ public class DefaultButtonSkin extends ButtonSkin
             g.setFillStyle("#99F");
             g.setStrokeStyle("#333");
             g.beginPath();
-            GraphicsUtil.drawRoundedRect(g, 0.5, 0.5, width - 0.5, height - 0.5, 8);
+            GraphicsUtil.drawRoundedRect(g, 0.5, 0.5, width - 1, height - 1, 8);
             g.closePath();
             g.fill();
             g.stroke();
+            renderText(g);
             g.restore();
         }
     };
@@ -70,10 +74,11 @@ public class DefaultButtonSkin extends ButtonSkin
             g.setFillStyle("#33F");
             g.setStrokeStyle("#999");
             g.beginPath();
-            GraphicsUtil.drawRoundedRect(g, 0.5, 0.5, width - 0.5, height - 0.5, 8);
+            GraphicsUtil.drawRoundedRect(g, 0.5, 0.5, width - 1, height - 1, 8);
             g.closePath();
             g.fill();
             g.stroke();
+            renderText(g);
             g.restore();
         }
     };
@@ -87,10 +92,11 @@ public class DefaultButtonSkin extends ButtonSkin
             g.setFillStyle("#F99");
             g.setStrokeStyle("#333");
             g.beginPath();
-            GraphicsUtil.drawRoundedRect(g, 0.5, 0.5, width - 0.5, height - 0.5, 8);
+            GraphicsUtil.drawRoundedRect(g, 0.5, 0.5, width - 1, height - 1, 8);
             g.closePath();
             g.fill();
             g.stroke();
+            renderText(g);
             g.restore();
         }
     };
@@ -104,10 +110,11 @@ public class DefaultButtonSkin extends ButtonSkin
             g.setFillStyle("#F33");
             g.setStrokeStyle("#999");
             g.beginPath();
-            GraphicsUtil.drawRoundedRect(g, 0.5, 0.5, width - 0.5, height - 0.5, 8);
+            GraphicsUtil.drawRoundedRect(g, 0.5, 0.5, width - 1, height - 1, 8);
             g.closePath();
             g.fill();
             g.stroke();
+            renderText(g);
             g.restore();
         }
     };
@@ -122,10 +129,11 @@ public class DefaultButtonSkin extends ButtonSkin
             g.setFillStyle("#999");
             g.setStrokeStyle("#333");
             g.beginPath();
-            GraphicsUtil.drawRoundedRect(g, 0.5, 0.5, width - 0.5, height - 0.5, 8);
+            GraphicsUtil.drawRoundedRect(g, 0.5, 0.5, width - 1, height - 1, 8);
             g.closePath();
             g.fill();
             g.stroke();
+            renderText(g);
             g.restore();
         }
     };
@@ -140,13 +148,16 @@ public class DefaultButtonSkin extends ButtonSkin
             g.setFillStyle("#333");
             g.setStrokeStyle("#999");
             g.beginPath();
-            GraphicsUtil.drawRoundedRect(g, 0.5, 0.5, width - 0.5, height - 0.5, 8);
+            GraphicsUtil.drawRoundedRect(g, 0.5, 0.5, width - 1, height - 1, 8);
             g.closePath();
             g.fill();
             g.stroke();
+            renderText(g);
             g.restore();
         }
     };
+
+    private String text;
 
     public DefaultButtonSkin()
     {
@@ -163,8 +174,19 @@ public class DefaultButtonSkin extends ButtonSkin
     @Override
     public void setText(String text)
     {
-        // TODO Auto-generated method stub
+        this.text = text;
+    }
 
+    private void renderText(Context2d g)
+    {
+        if (null != text)
+        {
+            g.setTextAlign(TextAlign.LEFT);
+            g.setTextBaseline(TextBaseline.MIDDLE);
+            g.setFont("bold 18px sans-serif");
+            g.setFillStyle("#000");
+            g.fillText(text, 10, height / 2);
+        }
     }
 
 }

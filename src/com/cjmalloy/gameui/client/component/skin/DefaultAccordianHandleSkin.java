@@ -1,6 +1,5 @@
 package com.cjmalloy.gameui.client.component.skin;
 
-import com.cjmalloy.gameui.client.component.Button.ButtonSkin;
 import com.cjmalloy.gameui.client.component.Button.ButtonState;
 import com.cjmalloy.gameui.client.core.IRender;
 import com.cjmalloy.gameui.client.util.GraphicsUtil;
@@ -21,7 +20,7 @@ public class DefaultAccordianHandleSkin extends ButtonSkin
             g.setFillStyle("#999");
             g.setStrokeStyle("#333");
             g.beginPath();
-            GraphicsUtil.drawRoundedRect(g, 1, 1, width - 2, height - 2, 8);
+            GraphicsUtil.drawRoundedRect(g, 0.5, 0.5, width - 1, height - 1, 8);
             g.closePath();
             g.fill();
             g.stroke();
@@ -39,7 +38,7 @@ public class DefaultAccordianHandleSkin extends ButtonSkin
             g.setFillStyle("#333");
             g.setStrokeStyle("#999");
             g.beginPath();
-            GraphicsUtil.drawRoundedRect(g, 1, 1, width - 2, height - 2, 8);
+            GraphicsUtil.drawRoundedRect(g, 0.5, 0.5, width - 1, height - 1, 8);
             g.closePath();
             g.fill();
             g.stroke();
@@ -57,7 +56,7 @@ public class DefaultAccordianHandleSkin extends ButtonSkin
             g.setFillStyle("#99F");
             g.setStrokeStyle("#333");
             g.beginPath();
-            GraphicsUtil.drawRoundedRect(g, 1, 1, width - 2, height - 2, 8);
+            GraphicsUtil.drawRoundedRect(g, 0.5, 0.5, width - 1, height - 1, 8);
             g.closePath();
             g.fill();
             g.stroke();
@@ -75,7 +74,7 @@ public class DefaultAccordianHandleSkin extends ButtonSkin
             g.setFillStyle("#33F");
             g.setStrokeStyle("#999");
             g.beginPath();
-            GraphicsUtil.drawRoundedRect(g, 1, 1, width - 2, height - 2, 8);
+            GraphicsUtil.drawRoundedRect(g, 0.5, 0.5, width - 1, height - 1, 8);
             g.closePath();
             g.fill();
             g.stroke();
@@ -93,7 +92,7 @@ public class DefaultAccordianHandleSkin extends ButtonSkin
             g.setFillStyle("#F99");
             g.setStrokeStyle("#333");
             g.beginPath();
-            GraphicsUtil.drawRoundedRect(g, 1, 1, width - 2, height - 2, 8);
+            GraphicsUtil.drawRoundedRect(g, 0.5, 0.5, width - 1, height - 1, 8);
             g.closePath();
             g.fill();
             g.stroke();
@@ -111,7 +110,7 @@ public class DefaultAccordianHandleSkin extends ButtonSkin
             g.setFillStyle("#F33");
             g.setStrokeStyle("#999");
             g.beginPath();
-            GraphicsUtil.drawRoundedRect(g, 1, 1, width - 2, height - 2, 8);
+            GraphicsUtil.drawRoundedRect(g, 0.5, 0.5, width - 1, height - 1, 8);
             g.closePath();
             g.fill();
             g.stroke();
@@ -130,7 +129,7 @@ public class DefaultAccordianHandleSkin extends ButtonSkin
             g.setFillStyle("#999");
             g.setStrokeStyle("#333");
             g.beginPath();
-            GraphicsUtil.drawRoundedRect(g, 1, 1, width - 2, height - 2, 8);
+            GraphicsUtil.drawRoundedRect(g, 0.5, 0.5, width - 1, height - 1, 8);
             g.closePath();
             g.fill();
             g.stroke();
@@ -149,7 +148,7 @@ public class DefaultAccordianHandleSkin extends ButtonSkin
             g.setFillStyle("#333");
             g.setStrokeStyle("#999");
             g.beginPath();
-            GraphicsUtil.drawRoundedRect(g, 1, 1, width - 2, height - 2, 8);
+            GraphicsUtil.drawRoundedRect(g, 0.5, 0.5, width - 1, height - 1, 8);
             g.closePath();
             g.fill();
             g.stroke();
@@ -157,6 +156,7 @@ public class DefaultAccordianHandleSkin extends ButtonSkin
             g.restore();
         }
     };
+
     private String text;
 
     public DefaultAccordianHandleSkin()

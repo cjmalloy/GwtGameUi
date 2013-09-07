@@ -1,10 +1,7 @@
 package com.cjmalloy.gameui.client.component;
 
-import java.util.HashMap;
-import java.util.Map;
-
+import com.cjmalloy.gameui.client.component.skin.ButtonSkin;
 import com.cjmalloy.gameui.client.component.skin.DefaultButtonSkin;
-import com.cjmalloy.gameui.client.core.IRender;
 import com.cjmalloy.gameui.client.event.EventBus;
 import com.cjmalloy.gameui.client.event.MouseClickEvent;
 import com.cjmalloy.gameui.client.event.MouseClickHandler;
@@ -18,6 +15,17 @@ import com.google.gwt.canvas.dom.client.Context2d;
 
 public class Button extends UiElement implements MouseDownHandler, MouseMoveHandler, MouseUpHandler, MouseClickHandler
 {
+    public enum ButtonState
+    {
+        UP,
+        UP_PRESSED,
+        UP_HOVERING,
+        UP_DISABLED,
+        DOWN,
+        DOWN_PRESSED,
+        DOWN_HOVERING,
+        DOWN_DISABLED,
+    }
 
     static ButtonSkin DEFAULT_BUTTON_SKIN = new DefaultButtonSkin();
 
@@ -188,46 +196,5 @@ public class Button extends UiElement implements MouseDownHandler, MouseMoveHand
         click.y = y;
         EventBus.get().fireEvent(click);
         allowClick = false;
-    }
-
-    public static abstract class ButtonSkin
-    {
-
-        public Map<ButtonState, IRender> states = new HashMap<ButtonState, IRender>();
-        public int width = 50, height = 50;
-
-        public IRender getFace(ButtonState state)
-        {
-            if (states.containsKey(state)) { return states.get(state); }
-
-            switch (state)
-            {
-            case UP:
-                return null;
-            case DOWN:
-                return getFace(ButtonState.UP);
-            case UP_HOVERING:
-                return getFace(ButtonState.UP);
-            case DOWN_HOVERING:
-                return getFace(ButtonState.DOWN);
-            case UP_PRESSED:
-                return getFace(ButtonState.UP_HOVERING);
-            case DOWN_PRESSED:
-                return getFace(ButtonState.DOWN_HOVERING);
-            case UP_DISABLED:
-                return getFace(ButtonState.UP);
-            case DOWN_DISABLED:
-                return getFace(ButtonState.DOWN);
-            default:
-                throw new Error("Invalid button state");
-            }
-        }
-
-        public abstract void setText(String text);
-    }
-
-    public enum ButtonState
-    {
-        UP, UP_PRESSED, UP_HOVERING, UP_DISABLED, DOWN, DOWN_PRESSED, DOWN_HOVERING, DOWN_DISABLED,
     }
 }
