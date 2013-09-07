@@ -6,56 +6,6 @@ import com.cjmalloy.gameui.client.event.MouseClickHandler;
 
 public class Accordion extends ScrollPanel
 {
-    private class AccordionFile extends Panel
-    {
-
-        public final UiElement file;
-        public final Button handle;
-
-        public int heightOpen;
-        public int heightClosed;
-
-        public boolean open = true;
-
-        public AccordionFile(UiElement file, Button handle)
-        {
-            super(0, 0, Accordion.this.width, handle.height);
-            this.file = file;
-            this.handle = handle;
-            this.heightClosed = handle.height;
-            this.heightOpen = handle.height + file.height;
-
-            handle.x = 0;
-            handle.y = 0;
-            handle.width = width;
-            add(handle);
-
-            file.x = 0;
-            file.y = heightClosed;
-            file.width = width;
-            add(file);
-
-            setOpen(false);
-        }
-
-        public void setOpen(boolean value)
-        {
-            if (open != value)
-            {
-                open = value;
-                handle.setDown(value);
-                height = open ? heightOpen : heightClosed;
-                file.visible = value;
-                redrawNeeded = true;
-            }
-        }
-
-        public void toggle()
-        {
-            setOpen(!open);
-        }
-    }
-
     public boolean onlyOneOpen = false;
 
     private MouseClickHandler accordianShuffleHandler = new MouseClickHandler()
@@ -142,6 +92,56 @@ public class Accordion extends ScrollPanel
             AccordionFile f = (AccordionFile) children.get(i);
             f.y = yoff;
             yoff += f.height;
+        }
+    }
+
+    private class AccordionFile extends Panel
+    {
+
+        public final UiElement file;
+        public final Button handle;
+
+        public int heightOpen;
+        public int heightClosed;
+
+        public boolean open = true;
+
+        public AccordionFile(UiElement file, Button handle)
+        {
+            super(0, 0, Accordion.this.width, handle.height);
+            this.file = file;
+            this.handle = handle;
+            this.heightClosed = handle.height;
+            this.heightOpen = handle.height + file.height;
+
+            handle.x = 0;
+            handle.y = 0;
+            handle.width = width;
+            add(handle);
+
+            file.x = 0;
+            file.y = heightClosed;
+            file.width = width;
+            add(file);
+
+            setOpen(false);
+        }
+
+        public void setOpen(boolean value)
+        {
+            if (open != value)
+            {
+                open = value;
+                handle.setDown(value);
+                height = open ? heightOpen : heightClosed;
+                file.setVisible(value);
+                redrawNeeded = true;
+            }
+        }
+
+        public void toggle()
+        {
+            setOpen(!open);
         }
     }
 }

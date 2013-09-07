@@ -56,9 +56,10 @@ public class Panel extends UiElement
     @Override
     public void redrawIfNecessary(Context2d g, double timestamp)
     {
-        if (!visible) { return; }
+        if (!isVisible()) { return; }
         if (redrawNeeded)
         {
+            clearRect(g);
             render(g, timestamp);
         }
         else
@@ -86,10 +87,9 @@ public class Panel extends UiElement
     @Override
     public void render(Context2d g, double timestamp)
     {
-        if (!visible) { return; }
+        if (!isVisible()) { return; }
         g.save();
         g.translate(x, y);
-        g.clearRect(0, 0, width, height);
         for (UiElement c : children)
         {
             c.render(g, timestamp);

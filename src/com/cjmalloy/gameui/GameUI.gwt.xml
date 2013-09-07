@@ -7,6 +7,9 @@
 
   <source path='client' />
 
+  <!-- Disable permutations that do not support canvas. -->
+  <set-property name="user.agent" value="gecko1_8,safari,opera,ie9"/>
+
   <!-- DEBUG -->
   <script src="stats.min.js" />
 

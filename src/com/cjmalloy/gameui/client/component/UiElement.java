@@ -19,7 +19,7 @@ import com.cjmalloy.mathlib.shared.linear.Rect;
 import com.google.gwt.canvas.dom.client.Context2d;
 
 /**
- * This is the base class for all Widgets in this library.
+ * This is the base class for all widgets in this library.
  *
  * @author chris
  *
@@ -33,11 +33,10 @@ public abstract class UiElement implements IRender, HasMouseHandlers
     public int height;
     public Panel parent;
 
-    public boolean visible = true;
-
     protected boolean redrawNeeded = true;
 
     private Rect rect;
+    private boolean visible = true;
 
     @Override
     public HandlerRegistration addMouseClickHandler(MouseClickHandler handler)
@@ -97,6 +96,11 @@ public abstract class UiElement implements IRender, HasMouseHandlers
         return l;
     }
 
+    public boolean isVisible()
+    {
+        return visible;
+    }
+
     public Point localToGlobal(Point p)
     {
         Point l = p.copy();
@@ -114,12 +118,17 @@ public abstract class UiElement implements IRender, HasMouseHandlers
     {
         x = p.x;
         y = p.y;
+        if (parent != null)
+        {
+            parent.redrawNeeded = true;
+        }
     }
 
     public void redrawIfNecessary(Context2d g, double timestamp)
     {
-        if (visible && redrawNeeded)
+        if (isVisible() && redrawNeeded)
         {
+            clearRect(g);
             render(g, timestamp);
         }
     }
@@ -127,6 +136,26 @@ public abstract class UiElement implements IRender, HasMouseHandlers
     public void redrawNeeded()
     {
         redrawNeeded = true;
+    }
+
+    public void setVisible(boolean value)
+    {
+        if (visible != value)
+        {
+            visible = value;
+            if (parent != null)
+            {
+                parent.redrawNeeded = true;
+            }
+        }
+    }
+
+    protected void clearRect(Context2d g)
+    {
+        g.save();
+        g.translate(x, y);
+        g.clearRect(0, 0, width, height);
+        g.restore();
     }
 
 }

@@ -99,11 +99,10 @@ public class Button extends UiElement implements MouseDownHandler, MouseMoveHand
     @Override
     public void render(Context2d g, double timestamp)
     {
-        if (!visible) { return; }
+        if (!isVisible()) { return; }
         redrawNeeded = false;
         g.save();
         g.translate(x, y);
-        g.clearRect(0, 0, width, height);
         skin.width = width;
         skin.height = height;
         skin.getFace(state).render(g, timestamp);

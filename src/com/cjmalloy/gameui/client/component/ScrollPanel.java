@@ -109,9 +109,10 @@ public class ScrollPanel extends Panel implements MouseUpHandler, MouseDownHandl
     @Override
     public void redrawIfNecessary(Context2d g, double timestamp)
     {
-        if (!visible) { return; }
+        if (!isVisible()) { return; }
         if (redrawNeeded)
         {
+            clearRect(g);
             render(g, timestamp);
         }
         else
@@ -142,7 +143,7 @@ public class ScrollPanel extends Panel implements MouseUpHandler, MouseDownHandl
     @Override
     public void render(Context2d g, double timestamp)
     {
-        if (!visible) { return; }
+        if (!isVisible()) { return; }
 
         Rect r = getContentRect();
         content.x = scrollOffset.x = Math.min(0, Math.max(width - r.width, scrollOffset.x));
@@ -151,7 +152,6 @@ public class ScrollPanel extends Panel implements MouseUpHandler, MouseDownHandl
         g.save();
         g.beginPath();
         g.translate(x, y);
-        g.clearRect(0, 0, width, height);
         g.rect(0, 0, width, height);
         g.clip();
         g.translate(scrollOffset.x, scrollOffset.y);

@@ -18,6 +18,8 @@ public class DragButton extends DragElement implements DragMoveHandler
         super();
 
         anim = new DragButtonAnimation();
+        setButtonSkin(Button.DEFAULT_BUTTON_SKIN);
+
         addDragMoveHandler(this);
     }
 
@@ -26,29 +28,33 @@ public class DragButton extends DragElement implements DragMoveHandler
     {
         Point delta = event.getPoint().subtract(startDragPoint);
         anim.moveTo(delta.add(x, y));
-        anim.redrawNeeded = true;
     }
 
     @Override
     public void render(Context2d g, double timestamp)
     {
-        if (!visible) { return; }
+        if (!isVisible()) { return; }
         redrawNeeded = false;
         g.save();
         g.translate(x, y);
-        g.clearRect(0, 0, width, height);
         skin.width = width;
         skin.height = height;
         skin.getFace(state).render(g, timestamp);
         g.restore();
     }
 
-    public void setButtonSin(ButtonSkin skin)
+    public void setButtonSkin(ButtonSkin skin)
     {
         this.skin = skin;
         this.width = skin.width;
         this.height = skin.height;
         redrawNeeded = true;
+        if (anim != null)
+        {
+            anim.width = skin.width;
+            anim.height = skin.height;
+            anim.redrawNeeded = true;
+        }
     }
 
     public void setText(String text)
@@ -82,20 +88,24 @@ public class DragButton extends DragElement implements DragMoveHandler
             redrawNeeded = true;
         }
 
-        anim.visible = isDragging();
+        anim.setVisible(isDragging());
     }
 
     public class DragButtonAnimation extends DragAnimation
     {
 
+        public DragButtonAnimation()
+        {
+            setVisible(false);
+        }
+
         @Override
         public void render(Context2d g, double timestamp)
         {
-            if (!visible) { return; }
+            if (!isVisible()) { return; }
             redrawNeeded = false;
             g.save();
             g.translate(x, y);
-            g.clearRect(0, 0, width, height);
             skin.width = width;
             skin.height = height;
             skin.getFace(state).render(g, timestamp);

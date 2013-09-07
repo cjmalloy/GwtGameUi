@@ -145,6 +145,14 @@ public class RenderEngine extends Composite implements HasMouseDownHandlers, Has
         scheduler.requestAnimationFrame(callback);
     }
 
+    public int addAnimationLayer()
+    {
+        Layer l = new AnimationLayer(width, height);
+        layers.add(l);
+        panel.add(l, 0, 0);
+        return layers.indexOf(l);
+    }
+
     public void addChild(int layerId, UiElement child)
     {
         layers.get(layerId).add(child);
@@ -284,10 +292,10 @@ public class RenderEngine extends Composite implements HasMouseDownHandlers, Has
     private class Layer extends Composite
     {
 
-        private final Canvas canvas;
-        private final Context2d g;
+        protected final Canvas canvas;
+        protected final Context2d g;
 
-        private List<UiElement> children = new ArrayList<UiElement>();
+        protected List<UiElement> children = new ArrayList<UiElement>();
 
         public Layer(int width, int height)
         {
@@ -315,7 +323,6 @@ public class RenderEngine extends Composite implements HasMouseDownHandlers, Has
         public void render(double timestamp)
         {
             g.save();
-            g.translate(0.5, 0.5);
             for (UiElement r : children)
             {
                 r.redrawIfNecessary(g, timestamp);
@@ -330,6 +337,26 @@ public class RenderEngine extends Composite implements HasMouseDownHandlers, Has
             {
                 r.redrawNeeded();
             }
+        }
+    }
+
+    private class AnimationLayer extends Layer
+    {
+
+        public AnimationLayer(int width, int height)
+        {
+            super(width, height);
+        }
+
+        @Override
+        public void render(double timestamp)
+        {
+            g.save();
+            for (UiElement r : children)
+            {
+                r.render(g, timestamp);
+            }
+            g.restore();
         }
     }
 }
