@@ -15,6 +15,8 @@ import com.google.gwt.canvas.dom.client.Context2d;
 public class Panel extends UiElement
 {
 
+    public boolean clip = false;
+
     protected final List<UiElement> children = new ArrayList<UiElement>();
 
     public Panel(int x, int y, int width, int height)
@@ -90,6 +92,12 @@ public class Panel extends UiElement
         if (!isVisible()) { return; }
         g.save();
         g.translate(x, y);
+        if (clip)
+        {
+            g.beginPath();
+            g.rect(0, 0, width, height);
+            g.clip();
+        }
         for (UiElement c : children)
         {
             c.render(g, timestamp);
