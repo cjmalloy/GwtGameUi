@@ -68,6 +68,16 @@ public class Accordion extends ScrollPanel
         add(child, handle);
     }
 
+    public void add(UiProxy proxy, Button handle)
+    {
+        add(proxy.getElement(), handle);
+    }
+
+    public void add(UiProxy proxy, String handleText)
+    {
+        add(proxy.getElement(), handleText);
+    }
+
     @Override
     public void remove(UiElement child)
     {

@@ -38,6 +38,7 @@ public class ScrollPanel extends Panel implements MouseUpHandler, MouseDownHandl
         addMouseWheelHandler(this);
     }
 
+    @Override
     public void add(UiElement child)
     {
         if (children.indexOf(child) == -1)

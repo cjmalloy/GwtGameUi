@@ -24,7 +24,7 @@ import com.google.gwt.canvas.dom.client.Context2d;
  * @author chris
  *
  */
-public abstract class UiElement implements IRender, HasMouseHandlers
+public abstract class UiElement implements UiProxy, IRender, HasMouseHandlers
 {
 
     public int x;
@@ -66,6 +66,11 @@ public abstract class UiElement implements IRender, HasMouseHandlers
     public HandlerRegistration addMouseWheelHandler(MouseWheelHandler handler)
     {
         return EventBus.get().addHandler(this, handler, MouseWheelEvent.TYPE, false);
+    }
+
+    public UiElement getElement()
+    {
+        return this;
     }
 
     public Rect getRect()
