@@ -13,6 +13,8 @@ public abstract class ButtonSkin
     public Map<ButtonState, IRender> states = new HashMap<ButtonState, IRender>();
     public int width = 50, height = 50;
 
+    protected String text;
+
     public IRender getFace(ButtonState state)
     {
         if (states.containsKey(state)) { return states.get(state); }
@@ -40,5 +42,8 @@ public abstract class ButtonSkin
         }
     }
 
-    public abstract void setText(String text);
+    public void setText(String text)
+    {
+        this.text = text;
+    }
 }

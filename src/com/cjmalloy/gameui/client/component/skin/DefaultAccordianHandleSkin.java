@@ -157,8 +157,6 @@ public class DefaultAccordianHandleSkin extends ButtonSkin
         }
     };
 
-    private String text;
-
     public DefaultAccordianHandleSkin()
     {
         states.put(ButtonState.UP, up);
@@ -170,13 +168,6 @@ public class DefaultAccordianHandleSkin extends ButtonSkin
         states.put(ButtonState.UP_DISABLED, upDisabled);
         states.put(ButtonState.DOWN_DISABLED, downDisabled);
     }
-
-    @Override
-    public void setText(String text)
-    {
-        this.text = text;
-    }
-
     private void renderText(Context2d g)
     {
         if (null != text)

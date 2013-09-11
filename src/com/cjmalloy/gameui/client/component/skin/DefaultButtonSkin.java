@@ -157,8 +157,6 @@ public class DefaultButtonSkin extends ButtonSkin
         }
     };
 
-    private String text;
-
     public DefaultButtonSkin()
     {
         states.put(ButtonState.UP, up);
@@ -169,12 +167,6 @@ public class DefaultButtonSkin extends ButtonSkin
         states.put(ButtonState.DOWN_HOVERING, downHovering);
         states.put(ButtonState.UP_DISABLED, upDisabled);
         states.put(ButtonState.DOWN_DISABLED, downDisabled);
-    }
-
-    @Override
-    public void setText(String text)
-    {
-        this.text = text;
     }
 
     private void renderText(Context2d g)
