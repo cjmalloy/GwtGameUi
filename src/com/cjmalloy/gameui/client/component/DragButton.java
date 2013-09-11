@@ -2,12 +2,9 @@ package com.cjmalloy.gameui.client.component;
 
 import com.cjmalloy.gameui.client.component.Button.ButtonState;
 import com.cjmalloy.gameui.client.component.skin.ButtonSkin;
-import com.cjmalloy.gameui.client.event.DragMoveEvent;
-import com.cjmalloy.gameui.client.event.DragMoveHandler;
-import com.cjmalloy.mathlib.shared.linear.Point;
 import com.google.gwt.canvas.dom.client.Context2d;
 
-public class DragButton extends DragElement implements DragMoveHandler
+public class DragButton extends DragElement
 {
 
     protected ButtonSkin skin;
@@ -19,15 +16,6 @@ public class DragButton extends DragElement implements DragMoveHandler
 
         anim = new DragButtonAnimation();
         setButtonSkin(Button.DEFAULT_BUTTON_SKIN);
-
-        addDragMoveHandler(this);
-    }
-
-    @Override
-    public void onDragMove(DragMoveEvent event)
-    {
-        Point delta = event.getPoint().subtract(startDragPoint);
-        anim.moveTo(delta.add(x, y));
     }
 
     @Override

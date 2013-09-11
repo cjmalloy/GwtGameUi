@@ -22,6 +22,7 @@ import com.cjmalloy.mathlib.shared.linear.Point;
 public abstract class DragElement extends UiElement implements MouseDownHandler, MouseMoveHandler, MouseUpHandler,
                                                                HasDragHandlers
 {
+    private static final EventBus DRAG_BUS = new EventBus();
 
     protected UiElement anim = null;
     protected Point startDragPoint;
@@ -31,9 +32,7 @@ public abstract class DragElement extends UiElement implements MouseDownHandler,
     private boolean disabled;
     private boolean dragging;
 
-    private EventBus dragBus = new EventBus();
-
-    protected abstract void updateState();
+    private boolean draggable = true;
 
     public DragElement()
     {
@@ -47,25 +46,25 @@ public abstract class DragElement extends UiElement implements MouseDownHandler,
     @Override
     public HandlerRegistration addDragCancelHandler(DragCancelHandler handler)
     {
-        return dragBus.addHandler(this, handler, DragCancelEvent.TYPE, false);
+        return DRAG_BUS.addHandler(this, handler, DragCancelEvent.TYPE, false);
     }
 
     @Override
     public HandlerRegistration addDragEndHandler(DragEndHandler handler)
     {
-        return dragBus.addHandler(this, handler, DragEndEvent.TYPE, false);
+        return DRAG_BUS.addHandler(this, handler, DragEndEvent.TYPE, false);
     }
 
     @Override
     public HandlerRegistration addDragMoveHandler(DragMoveHandler handler)
     {
-        return dragBus.addHandler(this, handler, DragMoveEvent.TYPE, false);
+        return DRAG_BUS.addHandler(this, handler, DragMoveEvent.TYPE, false);
     }
 
     @Override
     public HandlerRegistration addDragStartHandler(DragStartHandler handler)
     {
-        return dragBus.addHandler(this, handler, DragStartEvent.TYPE, false);
+        return DRAG_BUS.addHandler(this, handler, DragStartEvent.TYPE, false);
     }
 
     public UiElement getAnimationLayer()
@@ -76,6 +75,11 @@ public abstract class DragElement extends UiElement implements MouseDownHandler,
     public boolean isDisabled()
     {
         return disabled;
+    }
+
+    public boolean isDraggable()
+    {
+        return draggable;
     }
 
     public boolean isDragging()
@@ -118,9 +122,17 @@ public abstract class DragElement extends UiElement implements MouseDownHandler,
         {
             if (dragging)
             {
-                moveDrag(event);
+                if (draggable)
+                {
+                    moveDrag(event);
+                }
+                else
+                {
+                    cancelDrag(event);
+                    event.releaseCapture(this);
+                }
             }
-            else if (pressed)
+            else if (pressed && draggable)
             {
                 startDrag(event);
             }
@@ -150,13 +162,26 @@ public abstract class DragElement extends UiElement implements MouseDownHandler,
         updateState();
     }
 
+    public void setDraggable(boolean value)
+    {
+        draggable = value;
+    }
+
+    protected void updateAnimation(MouseMoveEvent event)
+    {
+        Point delta = event.getPoint().subtract(startDragPoint);
+        anim.moveTo(localToGlobal(delta));
+    }
+
+    protected abstract void updateState();
+
     private void cancelDrag(MouseMoveEvent event)
     {
         dragging = false;
         DragCancelEvent e = new DragCancelEvent();
         e.x = event.x;
         e.y = event.y;
-        dragBus.fireEvent(e);
+        DRAG_BUS.fireEvent(e);
     }
 
     private void endDrag(MouseUpEvent event)
@@ -165,15 +190,16 @@ public abstract class DragElement extends UiElement implements MouseDownHandler,
         DragEndEvent e = new DragEndEvent();
         e.x = event.x;
         e.y = event.y;
-        dragBus.fireEvent(e);
+        DRAG_BUS.fireEvent(e);
     }
 
     private void moveDrag(MouseMoveEvent event)
     {
+        updateAnimation(event);
         DragMoveEvent e = new DragMoveEvent();
         e.x = event.x;
         e.y = event.y;
-        dragBus.fireEvent(e);
+        DRAG_BUS.fireEvent(e);
     }
 
     private void startDrag(MouseMoveEvent event)
@@ -182,7 +208,7 @@ public abstract class DragElement extends UiElement implements MouseDownHandler,
         DragStartEvent e = new DragStartEvent();
         e.x = event.x;
         e.y = event.y;
-        dragBus.fireEvent(e);
+        DRAG_BUS.fireEvent(e);
     }
 
     public abstract class DragAnimation extends UiElement {}
