@@ -54,17 +54,6 @@ public class Panel extends UiElement
         }
     }
 
-    public void move(int x, int y)
-    {
-        this.x = x;
-        this.y = y;
-        redrawNeeded = true;
-        if (parent != null)
-        {
-            parent.redrawNeeded = true;
-        }
-    }
-
     @Override
     public void redrawIfNecessary(Context2d g, double timestamp)
     {
@@ -119,16 +108,5 @@ public class Panel extends UiElement
         }
         g.restore();
         redrawNeeded = false;
-    }
-
-    public void resize(int w, int h)
-    {
-        this.width = w;
-        this.height = h;
-        redrawNeeded = true;
-        if (parent != null)
-        {
-            parent.redrawNeeded = true;
-        }
     }
 }

@@ -119,14 +119,19 @@ public abstract class UiElement implements UiProxy, IRender, HasMouseHandlers
         return l;
     }
 
-    public void moveTo(Point p)
+    public void moveTo(int x, int y)
     {
-        x = p.x;
-        y = p.y;
+        this.x = x;
+        this.y = y;
         if (parent != null)
         {
-            parent.redrawNeeded = true;
+            parent.redrawNeeded();
         }
+    }
+
+    public void moveTo(Point p)
+    {
+        moveTo(p.x, p.y);
     }
 
     public void redrawIfNecessary(Context2d g, double timestamp)
@@ -143,6 +148,17 @@ public abstract class UiElement implements UiProxy, IRender, HasMouseHandlers
         redrawNeeded = true;
     }
 
+    public void resize(int w, int h)
+    {
+        this.width = w;
+        this.height = h;
+        redrawNeeded = true;
+        if (parent != null)
+        {
+            parent.redrawNeeded();
+        }
+    }
+
     public void setVisible(boolean value)
     {
         if (visible != value)
@@ -150,7 +166,7 @@ public abstract class UiElement implements UiProxy, IRender, HasMouseHandlers
             visible = value;
             if (parent != null)
             {
-                parent.redrawNeeded = true;
+                parent.redrawNeeded();
             }
         }
     }
