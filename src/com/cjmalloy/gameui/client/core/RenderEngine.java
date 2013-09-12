@@ -13,6 +13,7 @@ import com.cjmalloy.gameui.client.event.MouseWheelEvent;
 import com.cjmalloy.gameui.client.skin.Stylesheet;
 import com.cjmalloy.gameui.client.util.GraphicsUtil;
 import com.cjmalloy.gameui.client.util.UserAgent;
+import com.cjmalloy.gameui.shared.core.Point;
 import com.google.gwt.animation.client.AnimationScheduler;
 import com.google.gwt.animation.client.AnimationScheduler.AnimationCallback;
 import com.google.gwt.canvas.client.Canvas;

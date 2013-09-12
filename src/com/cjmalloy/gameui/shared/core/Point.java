@@ -1,4 +1,4 @@
-package com.cjmalloy.gameui.client.core;
+package com.cjmalloy.gameui.shared.core;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
 
