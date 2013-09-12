@@ -1,7 +1,7 @@
 package com.cjmalloy.gameui.client.event;
 
-import com.cjmalloy.mathlib.shared.linear.Point;
-import com.cjmalloy.mathlib.shared.linear.Rect;
+import com.cjmalloy.gameui.client.core.Point;
+import com.cjmalloy.gameui.client.core.Rect;
 
 public abstract class MouseEvent extends Event
 {

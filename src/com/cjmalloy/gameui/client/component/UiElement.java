@@ -1,6 +1,8 @@
 package com.cjmalloy.gameui.client.component;
 
 import com.cjmalloy.gameui.client.core.IRender;
+import com.cjmalloy.gameui.client.core.Point;
+import com.cjmalloy.gameui.client.core.Rect;
 import com.cjmalloy.gameui.client.event.EventBus;
 import com.cjmalloy.gameui.client.event.HasMouseHandlers;
 import com.cjmalloy.gameui.client.event.MouseClickEvent;
@@ -13,8 +15,6 @@ import com.cjmalloy.gameui.client.event.MouseUpEvent;
 import com.cjmalloy.gameui.client.event.MouseUpHandler;
 import com.cjmalloy.gameui.client.event.MouseWheelEvent;
 import com.cjmalloy.gameui.client.event.MouseWheelHandler;
-import com.cjmalloy.mathlib.shared.linear.Point;
-import com.cjmalloy.mathlib.shared.linear.Rect;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.event.shared.HandlerRegistration;
 

@@ -3,8 +3,6 @@
 <module>
   <inherits name='com.google.gwt.user.User' />
 
-  <inherits name='com.cjmalloy.mathlib.MathLib' />
-
   <source path='client' />
 
   <!-- Disable permutations that do not support canvas. -->
