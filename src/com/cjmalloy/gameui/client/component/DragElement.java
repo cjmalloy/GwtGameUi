@@ -1,29 +1,22 @@
 package com.cjmalloy.gameui.client.component;
 
 import com.cjmalloy.gameui.client.event.DragCancelEvent;
-import com.cjmalloy.gameui.client.event.DragCancelHandler;
 import com.cjmalloy.gameui.client.event.DragEndEvent;
-import com.cjmalloy.gameui.client.event.DragEndHandler;
 import com.cjmalloy.gameui.client.event.DragMoveEvent;
-import com.cjmalloy.gameui.client.event.DragMoveHandler;
 import com.cjmalloy.gameui.client.event.DragStartEvent;
-import com.cjmalloy.gameui.client.event.DragStartHandler;
+import com.cjmalloy.gameui.client.event.Event;
 import com.cjmalloy.gameui.client.event.EventBus;
-import com.cjmalloy.gameui.client.event.EventBus.HandlerRegistration;
-import com.cjmalloy.gameui.client.event.HasDragHandlers;
 import com.cjmalloy.gameui.client.event.MouseDownEvent;
 import com.cjmalloy.gameui.client.event.MouseDownHandler;
+import com.cjmalloy.gameui.client.event.MouseEvent;
 import com.cjmalloy.gameui.client.event.MouseMoveEvent;
 import com.cjmalloy.gameui.client.event.MouseMoveHandler;
 import com.cjmalloy.gameui.client.event.MouseUpEvent;
 import com.cjmalloy.gameui.client.event.MouseUpHandler;
 import com.cjmalloy.mathlib.shared.linear.Point;
 
-public abstract class DragElement extends UiElement implements MouseDownHandler, MouseMoveHandler, MouseUpHandler,
-                                                               HasDragHandlers
+public abstract class DragElement extends UiElement implements MouseDownHandler, MouseMoveHandler, MouseUpHandler
 {
-    private static final EventBus DRAG_BUS = new EventBus();
-
     protected UiElement anim = null;
     protected Point startDragPoint;
 
@@ -41,30 +34,6 @@ public abstract class DragElement extends UiElement implements MouseDownHandler,
         addMouseUpHandler(this);
         addMouseDownHandler(this);
         addMouseMoveHandler(this);
-    }
-
-    @Override
-    public HandlerRegistration addDragCancelHandler(DragCancelHandler handler)
-    {
-        return DRAG_BUS.addHandler(this, handler, DragCancelEvent.TYPE, false);
-    }
-
-    @Override
-    public HandlerRegistration addDragEndHandler(DragEndHandler handler)
-    {
-        return DRAG_BUS.addHandler(this, handler, DragEndEvent.TYPE, false);
-    }
-
-    @Override
-    public HandlerRegistration addDragMoveHandler(DragMoveHandler handler)
-    {
-        return DRAG_BUS.addHandler(this, handler, DragMoveEvent.TYPE, false);
-    }
-
-    @Override
-    public HandlerRegistration addDragStartHandler(DragStartHandler handler)
-    {
-        return DRAG_BUS.addHandler(this, handler, DragStartEvent.TYPE, false);
     }
 
     public UiElement getAnimationLayer()
@@ -150,10 +119,7 @@ public abstract class DragElement extends UiElement implements MouseDownHandler,
     public void onMouseUp(MouseUpEvent event)
     {
         event.releaseCapture(this);
-        if (pressed)
-        {
-            pressed = false;
-        }
+        pressed = false;
         if (dragging)
         {
             endDrag(event);
@@ -167,6 +133,42 @@ public abstract class DragElement extends UiElement implements MouseDownHandler,
         draggable = value;
     }
 
+    protected Event getDragCancelEvent(MouseEvent event)
+    {
+        DragCancelEvent e = new DragCancelEvent();
+        e.x = event.x;
+        e.y = event.y;
+        e.dragSource = this;
+        return e;
+    }
+
+    protected Event getDragEndEvent(MouseEvent event)
+    {
+        DragEndEvent e = new DragEndEvent();
+        e.x = event.x;
+        e.y = event.y;
+        e.dragSource = this;
+        return e;
+    }
+
+    protected Event getDragMoveEvent(MouseEvent event)
+    {
+        DragMoveEvent e = new DragMoveEvent();
+        e.x = event.x;
+        e.y = event.y;
+        e.dragSource = this;
+        return e;
+    }
+
+    protected Event getDragStartEvent(MouseEvent event)
+    {
+        DragStartEvent e = new DragStartEvent();
+        e.x = event.x;
+        e.y = event.y;
+        e.dragSource = this;
+        return e;
+    }
+
     protected void updateAnimation(MouseMoveEvent event)
     {
         Point delta = event.getPoint().subtract(startDragPoint);
@@ -178,37 +180,25 @@ public abstract class DragElement extends UiElement implements MouseDownHandler,
     private void cancelDrag(MouseMoveEvent event)
     {
         dragging = false;
-        DragCancelEvent e = new DragCancelEvent();
-        e.x = event.x;
-        e.y = event.y;
-        DRAG_BUS.fireEvent(e);
+        EventBus.get().fireEvent(getDragCancelEvent(event));
     }
 
     private void endDrag(MouseUpEvent event)
     {
         dragging = false;
-        DragEndEvent e = new DragEndEvent();
-        e.x = event.x;
-        e.y = event.y;
-        DRAG_BUS.fireEvent(e);
+        EventBus.get().fireEvent(getDragEndEvent(event));
     }
 
     private void moveDrag(MouseMoveEvent event)
     {
         updateAnimation(event);
-        DragMoveEvent e = new DragMoveEvent();
-        e.x = event.x;
-        e.y = event.y;
-        DRAG_BUS.fireEvent(e);
+        EventBus.get().fireEvent(getDragMoveEvent(event));
     }
 
     private void startDrag(MouseMoveEvent event)
     {
         dragging = true;
-        DragStartEvent e = new DragStartEvent();
-        e.x = event.x;
-        e.y = event.y;
-        DRAG_BUS.fireEvent(e);
+        EventBus.get().fireEvent(getDragStartEvent(event));
     }
 
     public abstract class DragAnimation extends UiElement {}

@@ -2,7 +2,6 @@ package com.cjmalloy.gameui.client.component;
 
 import com.cjmalloy.gameui.client.core.IRender;
 import com.cjmalloy.gameui.client.event.EventBus;
-import com.cjmalloy.gameui.client.event.EventBus.HandlerRegistration;
 import com.cjmalloy.gameui.client.event.HasMouseHandlers;
 import com.cjmalloy.gameui.client.event.MouseClickEvent;
 import com.cjmalloy.gameui.client.event.MouseClickHandler;
@@ -17,6 +16,7 @@ import com.cjmalloy.gameui.client.event.MouseWheelHandler;
 import com.cjmalloy.mathlib.shared.linear.Point;
 import com.cjmalloy.mathlib.shared.linear.Rect;
 import com.google.gwt.canvas.dom.client.Context2d;
+import com.google.gwt.event.shared.HandlerRegistration;
 
 /**
  * This is the base class for all widgets in this library.

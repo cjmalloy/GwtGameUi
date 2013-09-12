@@ -1,6 +1,6 @@
 package com.cjmalloy.gameui.client.event;
 
-public class DragEndEvent extends MouseEvent
+public class DragEndEvent extends DragEvent
 {
 
     public static final EventType<DragEndEvent> TYPE = new EventType<DragEndEvent>()

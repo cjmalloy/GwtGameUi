@@ -6,16 +6,12 @@ import java.util.List;
 import java.util.Map;
 
 import com.cjmalloy.gameui.client.component.UiElement;
+import com.google.gwt.event.shared.HandlerRegistration;
 
 public class EventBus
 {
 
     private static final EventBus INSTANCE = new EventBus();
-
-    public static EventBus get()
-    {
-        return INSTANCE;
-    }
 
     UiElement capture = null;
 
@@ -26,7 +22,7 @@ public class EventBus
         List<Listener> listeners = ensureListeners(type);
         Listener l = new Listener(source, handler, ignoresCapture);
         listeners.add(l);
-        return new HandlerRegistration(type, l);
+        return new HandlerRegistrationImpl(type, l);
     }
 
     public void fireEvent(Event e)
@@ -44,6 +40,11 @@ public class EventBus
         }
     }
 
+    public UiElement getCapture()
+    {
+        return capture;
+    }
+
     private List<Listener> ensureListeners(EventType<? extends Event> type)
     {
         List<Listener> listeners = map.get(type);
@@ -55,13 +56,18 @@ public class EventBus
         return listeners;
     }
 
-    public class HandlerRegistration
+    public static EventBus get()
+    {
+        return INSTANCE;
+    }
+
+    private class HandlerRegistrationImpl implements HandlerRegistration
     {
 
         private Listener listener;
         private EventType<? extends Event> type;
 
-        private HandlerRegistration(EventType<? extends Event> t, Listener l)
+        private HandlerRegistrationImpl(EventType<? extends Event> t, Listener l)
         {
             this.listener = l;
             this.type = t;

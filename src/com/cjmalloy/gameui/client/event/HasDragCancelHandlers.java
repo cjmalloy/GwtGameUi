@@ -1,6 +1,6 @@
 package com.cjmalloy.gameui.client.event;
 
-import com.cjmalloy.gameui.client.event.EventBus.HandlerRegistration;
+import com.google.gwt.event.shared.HandlerRegistration;
 
 public interface HasDragCancelHandlers
 {
