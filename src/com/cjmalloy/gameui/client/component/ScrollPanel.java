@@ -59,7 +59,7 @@ public class ScrollPanel extends Panel implements MouseUpHandler, MouseDownHandl
         return EventBus.get().addHandler(this, handler, MouseWheelEvent.TYPE, true);
     }
 
-    public Rect getContentRect()
+    public void resizeContent()
     {
         if (null == contentRect)
         {
@@ -73,7 +73,6 @@ public class ScrollPanel extends Panel implements MouseUpHandler, MouseDownHandl
         }
         content.width = contentRect.width;
         content.height = contentRect.height;
-        return contentRect;
     }
 
     @Override
@@ -136,9 +135,9 @@ public class ScrollPanel extends Panel implements MouseUpHandler, MouseDownHandl
     {
         if (!isVisible()) { return; }
 
-        Rect r = getContentRect();
-        content.x = scrollOffset.x = Math.min(0, Math.max(width - r.width, scrollOffset.x));
-        content.y = scrollOffset.y = Math.min(0, Math.max(height - r.height, scrollOffset.y));
+        resizeContent();
+        content.x = scrollOffset.x = Math.min(0, Math.max(width - content.width, scrollOffset.x));
+        content.y = scrollOffset.y = Math.min(0, Math.max(height - content.height, scrollOffset.y));
 
         g.save();
         g.beginPath();
@@ -157,9 +156,9 @@ public class ScrollPanel extends Panel implements MouseUpHandler, MouseDownHandl
 
     public void setScrollOffset(Point off)
     {
-        Rect r = getContentRect();
-        content.x = scrollOffset.x = Math.min(0, Math.max(width - r.width, off.x));
-        content.y = scrollOffset.y = Math.min(0, Math.max(height - r.height, off.y));
+        resizeContent();
+        content.x = scrollOffset.x = Math.min(0, Math.max(width - content.width, off.x));
+        content.y = scrollOffset.y = Math.min(0, Math.max(height - content.height, off.y));
         redrawNeeded = true;
     }
 }
