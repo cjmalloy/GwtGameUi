@@ -39,6 +39,21 @@ public class ScrollPanel extends Panel implements MouseUpHandler, MouseDownHandl
     }
 
     @Override
+    public void add(UiElement child)
+    {
+        if (children.indexOf(child) == -1)
+        {
+            if (null != child.parent)
+            {
+                child.parent.remove(child);
+            }
+            children.add(child);
+            child.parent = content;
+            redrawNeeded = true;
+        }
+    }
+
+    @Override
     public HandlerRegistration addMouseWheelHandler(MouseWheelHandler handler)
     {
         return EventBus.get().addHandler(this, handler, MouseWheelEvent.TYPE, true);
