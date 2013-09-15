@@ -38,6 +38,16 @@ public abstract class UiElement implements UiProxy, IRender, HasMouseHandlers
     private Rect rect;
     private boolean visible = true;
 
+    public UiElement() {}
+
+    public UiElement(int x, int y, int width, int height)
+    {
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
+    }
+
     @Override
     public HandlerRegistration addMouseClickHandler(MouseClickHandler handler)
     {
