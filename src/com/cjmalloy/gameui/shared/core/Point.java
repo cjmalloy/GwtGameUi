@@ -2,6 +2,7 @@ package com.cjmalloy.gameui.shared.core;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
 
+
 public class Point implements IsSerializable
 {
 
@@ -73,5 +74,11 @@ public class Point implements IsSerializable
         x -= p.x;
         y -= p.y;
         return this;
+    }
+
+    @Override
+    public String toString()
+    {
+        return "(" + x + ", " + y + ")";
     }
 }
