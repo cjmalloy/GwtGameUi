@@ -14,6 +14,7 @@ public abstract class Animation extends UiElement
     protected int duration;
 
     private boolean started = false;
+    private boolean ended = false;
     private double startTime;
 
     public Animation(int duration)
@@ -24,25 +25,31 @@ public abstract class Animation extends UiElement
     @Override
     public void redrawIfNecessary(Context2d g, double timestamp)
     {
+        if (ended) return;
         render(g, timestamp);
     }
 
     @Override
     public void render(Context2d g, double timestamp)
     {
+        if (ended) return;
+
         if (!started)
         {
             startTime = timestamp;
             started = true;
             onStart();
         }
-        if (startTime >= timestamp)
+        double elapsed = timestamp-startTime;
+        if (elapsed > duration)
         {
+            ended = true;
             onEnd();
         }
         else
         {
-            animate(g, ease((timestamp-startTime)/duration));
+            animate(g, ease(elapsed/duration));
+            parent.redrawNeeded();
         }
     }
 
@@ -73,6 +80,11 @@ public abstract class Animation extends UiElement
         return d;
     };
 
+    public static int interp(int a, int b, double p)
+    {
+        return (int) (a + (b-a)*p);
+    }
+
     public static double spread(double p, int i, int total)
     {
         return spread(p, i, total, 0.5);
@@ -80,16 +92,12 @@ public abstract class Animation extends UiElement
 
     public static double spread(double p, int i, int total, double width)
     {
+        if (total == 1) return p;
         double padding = 1-width;
-        double rel = i/(double)total;
+        double rel = i/((double)total-1);
         if (p <= rel*padding) return 0;
         if (p >= width + rel*padding) return 1;
-        return p * width;
-    }
-
-    public static int interp(int a, int b, double p)
-    {
-        return (int) (a + (b-a)*p);
+        return p*width + rel*padding;
     }
 
 }
