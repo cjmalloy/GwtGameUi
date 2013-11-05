@@ -161,4 +161,18 @@ public class ScrollPanel extends Panel implements MouseUpHandler, MouseDownHandl
         content.y = scrollOffset.y = Math.min(0, Math.max(height - content.height, off.y));
         redrawNeeded = true;
     }
+
+    public void scrollIntoView(UiProxy child)
+    {
+        scrollIntoView(child.getElement());
+    }
+
+    public void scrollIntoView(UiElement child)
+    {
+        scrollOffset.x = Math.max(-child.x, scrollOffset.x);
+        scrollOffset.x = Math.min(-child.x-child.width+width, scrollOffset.x);
+        scrollOffset.y = Math.max(-child.y, scrollOffset.y);
+        scrollOffset.y = Math.min(-child.y-child.height+height, scrollOffset.y);
+        setScrollOffset(scrollOffset);
+    }
 }

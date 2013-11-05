@@ -29,9 +29,6 @@ public class Accordion extends ScrollPanel
                     }
                 }
             }
-
-            layoutPanels();
-            redrawNeeded = true;
         }
     };
 
@@ -114,7 +111,7 @@ public class Accordion extends ScrollPanel
         public int heightOpen;
         public int heightClosed;
 
-        public boolean open = true;
+        public boolean open = false;
 
         public AccordionFile(UiElement file, Button handle)
         {
@@ -132,9 +129,10 @@ public class Accordion extends ScrollPanel
             file.x = 0;
             file.y = heightClosed;
             file.width = width;
+            file.setVisible(false);
             add(file);
 
-            setOpen(false);
+            height = heightClosed;
         }
 
         public void setOpen(boolean value)
@@ -142,10 +140,13 @@ public class Accordion extends ScrollPanel
             if (open != value)
             {
                 open = value;
-                handle.setDown(value);
+                handle.setDown(open);
                 height = open ? heightOpen : heightClosed;
-                file.setVisible(value);
+                file.setVisible(open);
                 redrawNeeded = true;
+
+                layoutPanels();
+                Accordion.this.redrawNeeded = true;
             }
         }
 
@@ -153,5 +154,23 @@ public class Accordion extends ScrollPanel
         {
             setOpen(!open);
         }
+    }
+
+    @Override
+    public void scrollIntoView(UiElement child)
+    {
+        AccordionFile a = getFile(child);
+        if (a == null) return;
+
+        a.setOpen(true);
+        super.scrollIntoView(a);
+    }
+
+    private AccordionFile getFile(UiElement child)
+    {
+        if (!(child.parent instanceof AccordionFile)) return null;
+        AccordionFile a = (AccordionFile) child.parent;
+        if (!children.contains(a)) return null;
+        return a;
     }
 }

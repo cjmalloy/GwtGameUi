@@ -169,7 +169,7 @@ public abstract class DragElement extends UiElement implements MouseDownHandler,
         return e;
     }
 
-    protected void updateAnimation(MouseMoveEvent event)
+    protected void updateAnimation(MouseEvent event)
     {
         Point delta = event.getPoint().subtract(startDragPoint);
         anim.moveTo(localToGlobal(delta));
@@ -198,6 +198,7 @@ public abstract class DragElement extends UiElement implements MouseDownHandler,
     private void startDrag(MouseMoveEvent event)
     {
         dragging = true;
+        updateAnimation(event);
         EventBus.get().fireEvent(getDragStartEvent(event));
     }
 

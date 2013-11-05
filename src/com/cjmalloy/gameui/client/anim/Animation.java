@@ -1,6 +1,7 @@
 package com.cjmalloy.gameui.client.anim;
 
 import com.cjmalloy.gameui.client.anim.ease.Easing;
+import com.cjmalloy.gameui.client.anim.ease.EasingFn;
 import com.cjmalloy.gameui.client.component.UiElement;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.core.client.Scheduler;
@@ -9,7 +10,7 @@ import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 
 public abstract class Animation extends UiElement
 {
-    public Easing easingFn = null;
+    public Easing easingFn = EasingFn.easeInOutQuad;
 
     protected int duration;
 
@@ -48,12 +49,12 @@ public abstract class Animation extends UiElement
         }
         else
         {
-            animate(g, ease(elapsed/duration));
+            animate(g, ease(elapsed/duration), timestamp);
             parent.redrawNeeded();
         }
     }
 
-    protected abstract void animate(Context2d g, double p);
+    protected abstract void animate(Context2d g, double p, double timestamp);
 
     protected void onEnd() {}
 
@@ -80,24 +81,25 @@ public abstract class Animation extends UiElement
         return d;
     };
 
-    public static int interp(int a, int b, double p)
+    public static double interp(double a, double b, double p)
     {
-        return (int) (a + (b-a)*p);
+        return a + (b-a)*p;
     }
 
     public static double spread(double p, int i, int total)
     {
-        return spread(p, i, total, 0.5);
+        return spread(p, i, total, 0.7);
     }
 
     public static double spread(double p, int i, int total, double width)
     {
         if (total == 1) return p;
-        double padding = 1-width;
-        double rel = i/((double)total-1);
-        if (p <= rel*padding) return 0;
-        if (p >= width + rel*padding) return 1;
-        return p*width + rel*padding;
+        double padding = 1.0 - width;
+        double rel = i / (total - 1.0);
+        double delay = rel * padding;
+        if (p <= delay) return 0;
+        if (p >= delay + width) return 1;
+        return (p - delay) / width;
     }
 
 }
