@@ -48,6 +48,21 @@ public class Point implements IsSerializable
         return this;
     }
 
+    @Override
+    public boolean equals(Object o)
+    {
+        if (!(o instanceof Point)) return false;
+        Point p = (Point) o;
+        return x == p.x &&
+               y == p.y;
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return (x & 0xFFFF) << 0x1000 | y & 0xFFFF;
+    }
+
     public Point multiply(double s)
     {
         x *= s;
