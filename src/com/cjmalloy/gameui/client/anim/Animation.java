@@ -39,13 +39,35 @@ public abstract class Animation extends UiElement
         {
             startTime = timestamp;
             started = true;
-            onStart();
+
+            // Let the current render loop end before we possibly
+            // trigger a new event. This prevents adding/removing
+            // children which would cause errors with the for loop.
+            Scheduler.get().scheduleFinally(new ScheduledCommand()
+            {
+                @Override
+                public void execute()
+                {
+                    onStart();
+                }
+            });
         }
         double elapsed = timestamp-startTime;
         if (elapsed > duration)
         {
             ended = true;
-            onEnd();
+
+            // Let the current render loop end before we possibly
+            // trigger a new event. This prevents adding/removing
+            // children which would cause errors with the for loop.
+            Scheduler.get().scheduleFinally(new ScheduledCommand()
+            {
+                @Override
+                public void execute()
+                {
+                    onEnd();
+                }
+            });
         }
         else
         {
@@ -62,15 +84,8 @@ public abstract class Animation extends UiElement
 
     protected void removeSelf()
     {
-        Scheduler.get().scheduleDeferred(new ScheduledCommand()
-        {
-            @Override
-            public void execute()
-            {
-                parent.remove(Animation.this);
-            }
-        });
-    };
+        parent.remove(Animation.this);
+    }
 
     private double ease(double d)
     {
@@ -79,7 +94,7 @@ public abstract class Animation extends UiElement
             return easingFn.ease(d);
         }
         return d;
-    };
+    }
 
     public static double interp(double a, double b, double p)
     {
