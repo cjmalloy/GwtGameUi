@@ -19,7 +19,14 @@ public class ScrollPanel extends Panel implements MouseUpHandler, MouseDownHandl
 {
 
     public Point scrollOffset = new Point();
-    protected Panel content = new Panel(0, 0, 0, 0);
+    protected Panel content = new Panel(0, 0, 0, 0)
+    {
+        @Override
+        public void redrawNeeded()
+        {
+            ScrollPanel.this.redrawNeeded = true;
+        }
+    };
 
     protected Point startDrag;
     protected Point startOffset;
@@ -96,7 +103,6 @@ public class ScrollPanel extends Panel implements MouseUpHandler, MouseDownHandl
     public void onMouseUp(MouseUpEvent event)
     {
         event.releaseCapture(this);
-
         startDrag = null;
     }
 
