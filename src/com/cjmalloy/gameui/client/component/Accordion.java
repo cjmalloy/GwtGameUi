@@ -91,6 +91,16 @@ public class Accordion extends ScrollPanel
         }
     }
 
+    @Override
+    public void scrollIntoView(UiElement child)
+    {
+        AccordionFile a = getFile(child);
+        if (a == null) return;
+
+        a.setOpen(true);
+        super.scrollIntoView(a);
+    }
+
     public void setVisible(UiElement child, boolean value)
     {
         getFile(child).setVisible(value);
@@ -99,6 +109,14 @@ public class Accordion extends ScrollPanel
     public void setVisible(UiProxy child, boolean value)
     {
         setVisible(child.getElement(), value);
+    }
+
+    private AccordionFile getFile(UiElement child)
+    {
+        if (!(child.parent instanceof AccordionFile)) return null;
+        AccordionFile a = (AccordionFile) child.parent;
+        if (!children.contains(a)) return null;
+        return a;
     }
 
     private void layoutPanels()
@@ -164,23 +182,5 @@ public class Accordion extends ScrollPanel
         {
             setOpen(!open);
         }
-    }
-
-    @Override
-    public void scrollIntoView(UiElement child)
-    {
-        AccordionFile a = getFile(child);
-        if (a == null) return;
-
-        a.setOpen(true);
-        super.scrollIntoView(a);
-    }
-
-    private AccordionFile getFile(UiElement child)
-    {
-        if (!(child.parent instanceof AccordionFile)) return null;
-        AccordionFile a = (AccordionFile) child.parent;
-        if (!children.contains(a)) return null;
-        return a;
     }
 }
