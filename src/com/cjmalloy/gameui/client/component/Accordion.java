@@ -91,6 +91,16 @@ public class Accordion extends ScrollPanel
         }
     }
 
+    public void setVisible(UiElement child, boolean value)
+    {
+        getFile(child).setVisible(value);
+    }
+
+    public void setVisible(UiProxy child, boolean value)
+    {
+        setVisible(child.getElement(), value);
+    }
+
     private void layoutPanels()
     {
         int yoff = 0;
