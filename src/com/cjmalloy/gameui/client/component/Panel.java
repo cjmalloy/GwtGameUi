@@ -12,7 +12,7 @@ import com.google.gwt.canvas.dom.client.Context2d;
  * @author chris
  *
  */
-public class Panel extends UiElement
+public class Panel extends UiElement implements HasChildren
 {
 
     public boolean clip = false;

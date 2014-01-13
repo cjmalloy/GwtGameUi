@@ -25,6 +25,7 @@ public class MouseWheelEvent extends MouseEvent
     public void callHandler(EventHandler handler)
     {
         if (!(handler instanceof MouseWheelHandler)) { throw new InvalidEventHandlerError(); }
+        if (!source.isMouseEnabled()) return;
 
         if (EventBus.get().capture == source || containsPoint())
         {

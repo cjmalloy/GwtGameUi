@@ -22,6 +22,7 @@ public class DragCancelEvent extends DragEvent
     public void callHandler(EventHandler handler)
     {
         if (!(handler instanceof DragCancelHandler)) { throw new InvalidEventHandlerError(); }
+        if (!source.isMouseEnabled()) return;
 
         if (EventBus.get().capture == source || containsPoint())
         {

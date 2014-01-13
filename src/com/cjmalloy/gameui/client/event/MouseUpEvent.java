@@ -23,6 +23,7 @@ public class MouseUpEvent extends MouseEvent
     public void callHandler(EventHandler handler)
     {
         if (!(handler instanceof MouseUpHandler)) { throw new InvalidEventHandlerError(); }
+        if (!source.isMouseEnabled()) return;
 
         if (EventBus.get().capture == source || containsPoint())
         {

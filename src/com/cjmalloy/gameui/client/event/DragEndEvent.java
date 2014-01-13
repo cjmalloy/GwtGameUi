@@ -23,6 +23,7 @@ public class DragEndEvent extends DragEvent
     public void callHandler(EventHandler handler)
     {
         if (!(handler instanceof DragEndHandler)) { throw new InvalidEventHandlerError(); }
+        if (!source.isMouseEnabled()) return;
 
         if (EventBus.get().capture == source || containsPoint())
         {

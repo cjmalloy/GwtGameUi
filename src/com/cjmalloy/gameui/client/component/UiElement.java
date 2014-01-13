@@ -111,6 +111,25 @@ public abstract class UiElement implements UiProxy, IRender, HasMouseHandlers
         return l;
     }
 
+    public boolean isAllParentsVisible()
+    {
+        UiElement t = this;
+        while (null != t)
+        {
+            if (!t.visible) return false;
+            t = t.parent;
+        }
+        return true;
+    }
+
+    /**
+     * Override to customise criteria for disabling mouse enabled.
+     */
+    public boolean isMouseEnabled()
+    {
+        return isAllParentsVisible();
+    }
+
     public boolean isVisible()
     {
         return visible;
