@@ -26,10 +26,7 @@ public abstract class Event
 
     public void releaseCapture(UiElement element)
     {
-        if (eventBus.capture == element)
-        {
-            eventBus.capture = null;
-        }
+        eventBus.releaseCapture(element);
     }
 
     public void setCapture(UiElement element)

@@ -45,6 +45,24 @@ public class EventBus
         return capture;
     }
 
+    public void releaseCapture(UiElement element)
+    {
+        if (capture == element)
+        {
+            capture = null;
+        }
+    }
+
+    public void validateCapture()
+    {
+        if (null == capture) return;
+
+        if (capture.isDetached())
+        {
+            capture = null;
+        }
+    }
+
     private List<Listener> ensureListeners(EventType<? extends Event> type)
     {
         List<Listener> listeners = map.get(type);

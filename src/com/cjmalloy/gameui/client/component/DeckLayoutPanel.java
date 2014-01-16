@@ -73,8 +73,8 @@ public class DeckLayoutPanel implements HasChildren
         else
         {
             currentElement = deck.get(index);
-            currentElement.setVisible(true);
             panel.add(currentElement);
+            currentElement.setVisible(true);
         }
     }
 

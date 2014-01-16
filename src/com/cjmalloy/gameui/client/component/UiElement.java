@@ -102,21 +102,34 @@ public abstract class UiElement implements UiProxy, IRender, HasMouseHandlers
     {
         Point l = p.copy();
         UiElement t = this;
-        while (null != t)
+        do
         {
             l.x -= t.x;
             l.y -= t.y;
             t = t.parent;
         }
+        while (null != t && t.parent != t);
         return l;
     }
 
     public boolean isAllParentsVisible()
     {
         UiElement t = this;
-        while (null != t)
+        do
         {
             if (!t.visible) return false;
+            t = t.parent;
+        }
+        while (null != t && t.parent != t);
+        return true;
+    }
+
+    public boolean isDetached()
+    {
+        UiElement t = this;
+        while (t != null)
+        {
+            if (t.parent == t) return false;
             t = t.parent;
         }
         return true;
@@ -139,12 +152,13 @@ public abstract class UiElement implements UiProxy, IRender, HasMouseHandlers
     {
         Point l = p.copy();
         UiElement t = this;
-        while (null != t)
+        do
         {
             l.x += t.x;
             l.y += t.y;
             t = t.parent;
         }
+        while (null != t && t.parent != t);
         return l;
     }
 

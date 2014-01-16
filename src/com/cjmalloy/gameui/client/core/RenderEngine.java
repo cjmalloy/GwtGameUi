@@ -3,6 +3,7 @@ package com.cjmalloy.gameui.client.core;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.cjmalloy.gameui.client.component.Panel;
 import com.cjmalloy.gameui.client.component.UiElement;
 import com.cjmalloy.gameui.client.event.EventBus;
 import com.cjmalloy.gameui.client.event.MouseClickEvent;
@@ -153,7 +154,7 @@ public class RenderEngine extends Composite implements HasMouseDownHandlers, Has
         return layers.indexOf(l);
     }
 
-    public void addChild(int layerId, UiElement child)
+    public void addChild(int layerId, Panel child)
     {
         layers.get(layerId).add(child);
     }
@@ -242,7 +243,7 @@ public class RenderEngine extends Composite implements HasMouseDownHandlers, Has
         EventBus.get().fireEvent(e);
     }
 
-    public void removeChild(int layerId, UiElement child)
+    public void removeChild(int layerId, Panel child)
     {
         layers.get(layerId).remove(child);
     }
@@ -295,7 +296,7 @@ public class RenderEngine extends Composite implements HasMouseDownHandlers, Has
         protected final Canvas canvas;
         protected final Context2d g;
 
-        protected List<UiElement> children = new ArrayList<UiElement>();
+        protected List<Panel> children = new ArrayList<Panel>();
 
         public Layer(int width, int height)
         {
@@ -304,19 +305,21 @@ public class RenderEngine extends Composite implements HasMouseDownHandlers, Has
             g = canvas.getContext2d();
         }
 
-        public void add(UiElement child)
+        public void add(Panel child)
         {
             if (children.indexOf(child) == -1)
             {
                 children.add(child);
+                child.parent = child;
             }
         }
 
-        public void remove(UiElement child)
+        public void remove(Panel child)
         {
             if (children.indexOf(child) != -1)
             {
                 children.remove(child);
+                child.parent = null;
             }
         }
 

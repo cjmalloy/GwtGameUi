@@ -3,6 +3,7 @@ package com.cjmalloy.gameui.client.component;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.cjmalloy.gameui.client.event.EventBus;
 import com.google.gwt.canvas.dom.client.Context2d;
 
 /**
@@ -79,6 +80,7 @@ public class Panel extends UiElement implements HasChildren
             children.remove(child);
             child.parent = null;
             redrawNeeded = true;
+            EventBus.get().validateCapture();
         }
     }
 
