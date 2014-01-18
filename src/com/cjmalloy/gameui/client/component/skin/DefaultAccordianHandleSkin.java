@@ -1,7 +1,7 @@
 package com.cjmalloy.gameui.client.component.skin;
 
 import com.cjmalloy.gameui.client.component.Button.ButtonState;
-import com.cjmalloy.gameui.client.core.IRender;
+import com.cjmalloy.gameui.client.core.Renderer;
 import com.cjmalloy.gameui.client.util.GraphicsUtil;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.canvas.dom.client.Context2d.TextAlign;
@@ -10,7 +10,7 @@ import com.google.gwt.canvas.dom.client.Context2d.TextBaseline;
 public class DefaultAccordianHandleSkin extends ButtonSkin
 {
 
-    private IRender up = new IRender()
+    private Renderer up = new Renderer()
     {
 
         @Override
@@ -28,7 +28,7 @@ public class DefaultAccordianHandleSkin extends ButtonSkin
             g.restore();
         }
     };
-    private IRender down = new IRender()
+    private Renderer down = new Renderer()
     {
 
         @Override
@@ -46,7 +46,7 @@ public class DefaultAccordianHandleSkin extends ButtonSkin
             g.restore();
         }
     };
-    private IRender upPressed = new IRender()
+    private Renderer upPressed = new Renderer()
     {
 
         @Override
@@ -64,7 +64,7 @@ public class DefaultAccordianHandleSkin extends ButtonSkin
             g.restore();
         }
     };
-    private IRender downPressed = new IRender()
+    private Renderer downPressed = new Renderer()
     {
 
         @Override
@@ -82,7 +82,7 @@ public class DefaultAccordianHandleSkin extends ButtonSkin
             g.restore();
         }
     };
-    private IRender upHovering = new IRender()
+    private Renderer upHovering = new Renderer()
     {
 
         @Override
@@ -100,7 +100,7 @@ public class DefaultAccordianHandleSkin extends ButtonSkin
             g.restore();
         }
     };
-    private IRender downHovering = new IRender()
+    private Renderer downHovering = new Renderer()
     {
 
         @Override
@@ -118,7 +118,7 @@ public class DefaultAccordianHandleSkin extends ButtonSkin
             g.restore();
         }
     };
-    private IRender upDisabled = new IRender()
+    private Renderer upDisabled = new Renderer()
     {
 
         @Override
@@ -137,7 +137,7 @@ public class DefaultAccordianHandleSkin extends ButtonSkin
             g.restore();
         }
     };
-    private IRender downDisabled = new IRender()
+    private Renderer downDisabled = new Renderer()
     {
 
         @Override

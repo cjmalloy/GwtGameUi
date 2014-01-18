@@ -59,8 +59,9 @@ public class Accordion extends ScrollPanel
 
     public void add(UiElement child, String handleText)
     {
-        Button handle = new  Button();
-        handle.skin = new DefaultAccordianHandleSkin();
+        Button handle = new Button();
+        handle.cache = true;
+        handle.setButtonSkin(new DefaultAccordianHandleSkin());
         handle.setText(handleText);
         add(child, handle);
     }
@@ -122,11 +123,21 @@ public class Accordion extends ScrollPanel
     private void layoutPanels()
     {
         int yoff = 0;
-        for (int i = 0; i < children.size(); i++)
+        for (UiElement e : children)
         {
-            AccordionFile f = (AccordionFile) children.get(i);
+            AccordionFile f = (AccordionFile) e;
             f.y = yoff;
             yoff += f.height;
+        }
+    }
+
+    @Override
+    public void resize(int w, int h)
+    {
+        super.resize(w, h);
+        for (UiElement e : children)
+        {
+            e.resize(w, e.height);
         }
     }
 
@@ -151,7 +162,7 @@ public class Accordion extends ScrollPanel
 
             handle.x = 0;
             handle.y = 0;
-            handle.width = width;
+            handle.resize(width, handle.height);
             add(handle);
 
             file.x = 0;
@@ -161,6 +172,16 @@ public class Accordion extends ScrollPanel
             add(file);
 
             height = heightClosed;
+        }
+
+        @Override
+        public void resize(int w, int h)
+        {
+            super.resize(w, h);
+            for (UiElement e : children)
+            {
+                e.resize(w, e.height);
+            }
         }
 
         public void setOpen(boolean value)

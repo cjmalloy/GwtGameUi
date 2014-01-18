@@ -4,18 +4,19 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.cjmalloy.gameui.client.component.Button.ButtonState;
-import com.cjmalloy.gameui.client.core.IRender;
+import com.cjmalloy.gameui.client.core.HasRenderer;
+import com.cjmalloy.gameui.client.core.Renderer;
 
 
-public abstract class ButtonSkin
+public abstract class ButtonSkin implements HasRenderer<ButtonState>
 {
 
-    public Map<ButtonState, IRender> states = new HashMap<ButtonState, IRender>();
+    public Map<ButtonState, Renderer> states = new HashMap<ButtonState, Renderer>();
     public int width = 50, height = 50;
 
     protected String text;
 
-    public IRender getFace(ButtonState state)
+    public Renderer getRenderer(ButtonState state)
     {
         if (states.containsKey(state)) { return states.get(state); }
 
@@ -24,19 +25,19 @@ public abstract class ButtonSkin
         case UP:
             return null;
         case DOWN:
-            return getFace(ButtonState.UP);
+            return getRenderer(ButtonState.UP);
         case UP_HOVERING:
-            return getFace(ButtonState.UP);
+            return getRenderer(ButtonState.UP);
         case DOWN_HOVERING:
-            return getFace(ButtonState.DOWN);
+            return getRenderer(ButtonState.DOWN);
         case UP_PRESSED:
-            return getFace(ButtonState.UP_HOVERING);
+            return getRenderer(ButtonState.UP_HOVERING);
         case DOWN_PRESSED:
-            return getFace(ButtonState.DOWN_HOVERING);
+            return getRenderer(ButtonState.DOWN_HOVERING);
         case UP_DISABLED:
-            return getFace(ButtonState.UP);
+            return getRenderer(ButtonState.UP);
         case DOWN_DISABLED:
-            return getFace(ButtonState.DOWN);
+            return getRenderer(ButtonState.DOWN);
         default:
             throw new Error("Invalid button state");
         }

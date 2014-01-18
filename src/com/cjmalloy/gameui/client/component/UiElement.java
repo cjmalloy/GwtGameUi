@@ -1,6 +1,6 @@
 package com.cjmalloy.gameui.client.component;
 
-import com.cjmalloy.gameui.client.core.IRender;
+import com.cjmalloy.gameui.client.core.Renderer;
 import com.cjmalloy.gameui.client.event.EventBus;
 import com.cjmalloy.gameui.client.event.HasMouseHandlers;
 import com.cjmalloy.gameui.client.event.MouseClickEvent;
@@ -24,7 +24,7 @@ import com.google.gwt.event.shared.HandlerRegistration;
  * @author chris
  *
  */
-public abstract class UiElement implements UiProxy, IRender, HasMouseHandlers
+public abstract class UiElement implements UiProxy, Renderer, HasMouseHandlers
 {
 
     public int x;
@@ -211,6 +211,7 @@ public abstract class UiElement implements UiProxy, IRender, HasMouseHandlers
             {
                 parent.redrawNeeded();
             }
+            EventBus.get().validateCapture();
         }
     }
 

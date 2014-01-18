@@ -2,6 +2,7 @@ package com.cjmalloy.gameui.client.component;
 
 import com.cjmalloy.gameui.client.component.skin.ButtonSkin;
 import com.cjmalloy.gameui.client.component.skin.DefaultButtonSkin;
+import com.cjmalloy.gameui.client.core.CacheMap;
 import com.cjmalloy.gameui.client.event.EventBus;
 import com.cjmalloy.gameui.client.event.MouseClickEvent;
 import com.cjmalloy.gameui.client.event.MouseClickHandler;
@@ -30,6 +31,7 @@ public class Button extends UiElement implements MouseDownHandler, MouseMoveHand
     public static ButtonSkin DEFAULT_BUTTON_SKIN = new DefaultButtonSkin();
 
     public boolean toggle = false;
+    public boolean cache = false;
 
     protected ButtonSkin skin;
     protected ButtonState state = ButtonState.UP;
@@ -40,6 +42,7 @@ public class Button extends UiElement implements MouseDownHandler, MouseMoveHand
     private boolean disabled;
 
     private boolean allowClick = false;
+    private CacheMap<ButtonState> cacheMap = null;
 
     public Button()
     {
@@ -111,10 +114,31 @@ public class Button extends UiElement implements MouseDownHandler, MouseMoveHand
         redrawNeeded = false;
         g.save();
         g.translate(x, y);
+        if (cache)
+        {
+            if (cacheMap == null)
+            {
+                cacheMap = new CacheMap<ButtonState>(skin, width, height);
+            }
+            cacheMap.render(g, state);
+        }
+        else
+        {
+            skin.getRenderer(state).render(g, timestamp);
+        }
+        g.restore();
+    }
+
+    @Override
+    public void resize(int w, int h)
+    {
+        super.resize(w, h);
         skin.width = width;
         skin.height = height;
-        skin.getFace(state).render(g, timestamp);
-        g.restore();
+        if (cacheMap != null)
+        {
+            cacheMap.resize(w, h);
+        }
     }
 
     public void setButtonSkin(ButtonSkin skin)
@@ -123,6 +147,7 @@ public class Button extends UiElement implements MouseDownHandler, MouseMoveHand
         this.width = skin.width;
         this.height = skin.height;
         redrawNeeded = true;
+        cacheMap = null;
     }
 
     public void setDown(boolean value)
@@ -137,6 +162,10 @@ public class Button extends UiElement implements MouseDownHandler, MouseMoveHand
     public void setText(String text)
     {
         skin.setText(text);
+        if (cacheMap != null)
+        {
+            cacheMap.clear();
+        }
     }
 
     protected void updateState()

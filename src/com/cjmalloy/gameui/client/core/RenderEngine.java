@@ -100,6 +100,7 @@ public class RenderEngine extends Composite implements HasMouseDownHandlers, Has
         public void execute(double timestamp)
         {
             scheduler.requestAnimationFrame(callback);
+            EventBus.get().flushMouseMoveEvent();
             render(timestamp);
         }
     };

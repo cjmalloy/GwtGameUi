@@ -16,6 +16,7 @@ public class EventBus
     UiElement capture = null;
 
     private Map<EventType<? extends Event>, List<Listener>> map = new HashMap<EventType<? extends Event>, List<Listener>>();
+    private Event lastMouseMoveEvent = null;
 
     public HandlerRegistration addHandler(UiElement source, EventHandler handler, EventType<? extends Event> type, boolean ignoresCapture)
     {
@@ -27,16 +28,16 @@ public class EventBus
 
     public void fireEvent(Event e)
     {
-        List<Listener> listeners = ensureListeners(e.getType());
-        for (Listener l : listeners)
+        fireEvent(e, false);
+    }
+
+    public void flushMouseMoveEvent()
+    {
+        if (lastMouseMoveEvent != null)
         {
-            if (capture == null || l.ignoresCapture || l.source == capture)
-            {
-                e.stopPropogation = false;
-                e.source = l.source;
-                e.callHandler(l.handler);
-            }
-            if (e.stopPropogation) return;
+            Event e = lastMouseMoveEvent;
+            lastMouseMoveEvent = null;
+            fireEvent(e, true);
         }
     }
 
@@ -57,7 +58,7 @@ public class EventBus
     {
         if (null == capture) return;
 
-        if (capture.isDetached())
+        if (capture.isDetached() || !capture.isMouseEnabled())
         {
             capture = null;
         }
@@ -72,6 +73,34 @@ public class EventBus
             map.put(type, listeners);
         }
         return listeners;
+    }
+
+    private void fireEvent(Event e, boolean flush)
+    {
+        if (e instanceof MouseMoveEvent)
+        {
+            if (!flush)
+            {
+                lastMouseMoveEvent = e;
+                return;
+            }
+        }
+        else
+        {
+            flushMouseMoveEvent();
+        }
+
+        List<Listener> listeners = ensureListeners(e.getType());
+        for (Listener l : listeners)
+        {
+            if (capture == null || l.ignoresCapture || l.source == capture)
+            {
+                e.stopPropogation = false;
+                e.source = l.source;
+                e.callHandler(l.handler);
+            }
+            if (e.stopPropogation) return;
+        }
     }
 
     public static EventBus get()

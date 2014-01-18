@@ -27,7 +27,7 @@ public class DragButton extends DragElement
         g.translate(x, y);
         skin.width = width;
         skin.height = height;
-        skin.getFace(state).render(g, timestamp);
+        skin.getRenderer(state).render(g, timestamp);
         g.restore();
     }
 
@@ -96,7 +96,7 @@ public class DragButton extends DragElement
             g.translate(x, y);
             skin.width = width;
             skin.height = height;
-            skin.getFace(state).render(g, timestamp);
+            skin.getRenderer(state).render(g, timestamp);
             g.restore();
         }
 
