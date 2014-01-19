@@ -128,6 +128,7 @@ public class RenderEngine extends Composite implements HasMouseDownHandlers, Has
         this.height = height;
         initWidget(panel);
         setStylePrimaryName(Stylesheet.INSTANCE.style().rendererStyles());
+        Window.enableScrolling(false);
 
         panel.setPixelSize(width, height);
 
