@@ -1,21 +1,35 @@
 package com.cjmalloy.gameui.client.component;
 
-import com.cjmalloy.gameui.client.component.Button.ButtonState;
-import com.cjmalloy.gameui.client.component.skin.ButtonSkin;
+import com.cjmalloy.gameui.client.component.skin.DefaultDragButtonSkin;
+import com.cjmalloy.gameui.client.component.skin.DragButtonSkin;
 import com.google.gwt.canvas.dom.client.Context2d;
 
 public class DragButton extends DragElement
 {
+    public enum DragButtonState
+    {
+        UP,
+        UP_PRESSED,
+        UP_HOVERING,
+        UP_DISABLED,
+        DOWN,
+        DOWN_PRESSED,
+        DOWN_HOVERING,
+        DOWN_DISABLED,
+        DRAGGING,
+    }
 
-    protected ButtonSkin skin;
-    protected ButtonState state = ButtonState.UP;
+    public static DragButtonSkin DEFAULT_DRAG_BUTTON_SKIN = new DefaultDragButtonSkin();
+
+    protected DragButtonSkin skin;
+    protected DragButtonState state = DragButtonState.UP;
 
     public DragButton()
     {
         super();
 
         anim = new DragButtonAnimation();
-        setButtonSkin(Button.DEFAULT_BUTTON_SKIN);
+        setButtonSkin(DEFAULT_DRAG_BUTTON_SKIN);
     }
 
     @Override
@@ -31,7 +45,7 @@ public class DragButton extends DragElement
         g.restore();
     }
 
-    public void setButtonSkin(ButtonSkin skin)
+    public void setButtonSkin(DragButtonSkin skin)
     {
         this.skin = skin;
         this.width = skin.width;
@@ -52,22 +66,26 @@ public class DragButton extends DragElement
 
     protected void updateState()
     {
-        ButtonState s;
-        if (isDisabled())
+        DragButtonState s;
+        if (isDragging())
         {
-            s = ButtonState.UP_DISABLED;
+            s = DragButtonState.DRAGGING;
+        }
+        else if (isDisabled())
+        {
+            s = DragButtonState.UP_DISABLED;
         }
         else if (isPressed())
         {
-            s = ButtonState.UP_PRESSED;
+            s = DragButtonState.UP_PRESSED;
         }
         else if (isHovering())
         {
-            s = ButtonState.UP_HOVERING;
+            s = DragButtonState.UP_HOVERING;
         }
         else
         {
-            s = ButtonState.UP;
+            s = DragButtonState.UP;
         }
 
         if (state != s)
@@ -96,7 +114,7 @@ public class DragButton extends DragElement
             g.translate(x, y);
             skin.width = width;
             skin.height = height;
-            skin.getRenderer(state).render(g, timestamp);
+            skin.getRenderer(DragButtonState.UP).render(g, timestamp);
             g.restore();
         }
 
