@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.cjmalloy.gameui.client.component.UiElement;
+import com.cjmalloy.gameui.client.component.UiProxy;
 import com.google.gwt.event.shared.HandlerRegistration;
 
 public class EventBus
@@ -24,6 +25,11 @@ public class EventBus
         Listener l = new Listener(source, handler, ignoresCapture);
         listeners.add(l);
         return new HandlerRegistrationImpl(type, l);
+    }
+
+    public HandlerRegistration addHandler(UiProxy source, EventHandler handler, EventType<? extends Event> type, boolean ignoresCapture)
+    {
+        return addHandler(source.getElement(), handler, type, ignoresCapture);
     }
 
     public void fireEvent(Event e)

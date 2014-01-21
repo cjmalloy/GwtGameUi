@@ -99,7 +99,6 @@ public class DragButton extends DragElement
 
     public class DragButtonAnimation extends DragAnimation
     {
-
         public DragButtonAnimation()
         {
             setVisible(false);
@@ -117,6 +116,5 @@ public class DragButton extends DragElement
             skin.getRenderer(DragButtonState.UP).render(g, timestamp);
             g.restore();
         }
-
     }
 }
