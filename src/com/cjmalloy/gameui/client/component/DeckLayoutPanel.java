@@ -3,6 +3,10 @@ package com.cjmalloy.gameui.client.component;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.cjmalloy.gameui.client.core.HasChildren;
+import com.cjmalloy.gameui.client.core.UiElement;
+import com.cjmalloy.gameui.client.core.UiProxy;
+
 
 public class DeckLayoutPanel implements HasChildren
 {

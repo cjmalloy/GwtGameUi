@@ -3,6 +3,7 @@ package com.cjmalloy.gameui.client.component;
 import com.cjmalloy.gameui.client.component.skin.ButtonSkin;
 import com.cjmalloy.gameui.client.component.skin.DefaultButtonSkin;
 import com.cjmalloy.gameui.client.core.CacheMap;
+import com.cjmalloy.gameui.client.core.UiElement;
 import com.cjmalloy.gameui.client.event.EventBus;
 import com.cjmalloy.gameui.client.event.MouseClickEvent;
 import com.cjmalloy.gameui.client.event.MouseClickHandler;

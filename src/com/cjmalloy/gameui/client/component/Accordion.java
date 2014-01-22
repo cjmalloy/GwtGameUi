@@ -1,6 +1,8 @@
 package com.cjmalloy.gameui.client.component;
 
 import com.cjmalloy.gameui.client.component.skin.DefaultAccordianHandleSkin;
+import com.cjmalloy.gameui.client.core.UiElement;
+import com.cjmalloy.gameui.client.core.UiProxy;
 import com.cjmalloy.gameui.client.event.MouseClickEvent;
 import com.cjmalloy.gameui.client.event.MouseClickHandler;
 

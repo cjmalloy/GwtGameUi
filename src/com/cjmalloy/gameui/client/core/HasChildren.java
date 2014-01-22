@@ -1,4 +1,5 @@
-package com.cjmalloy.gameui.client.component;
+package com.cjmalloy.gameui.client.core;
+
 
 
 public interface HasChildren extends UiProxy

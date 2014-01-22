@@ -55,7 +55,7 @@ public class DragButton extends DragElement
         {
             anim.width = skin.width;
             anim.height = skin.height;
-            anim.redrawNeeded = true;
+            anim.redrawNeeded();
         }
     }
 

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.cjmalloy.gameui.client.component.Panel;
-import com.cjmalloy.gameui.client.component.UiElement;
 import com.cjmalloy.gameui.client.event.EventBus;
 import com.cjmalloy.gameui.client.event.MouseClickEvent;
 import com.cjmalloy.gameui.client.event.MouseDownEvent;

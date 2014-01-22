@@ -60,7 +60,7 @@ public class Point implements IsSerializable
     @Override
     public int hashCode()
     {
-        return (x & 0xFFFF) << 0x1000 | y & 0xFFFF;
+        return ((x & 0xFFFF) << 0x1000) | y & 0xFFFF;
     }
 
     public Point multiply(double s)

@@ -1,6 +1,6 @@
 package com.cjmalloy.gameui.client.event;
 
-import com.cjmalloy.gameui.client.component.UiElement;
+import com.cjmalloy.gameui.client.core.UiElement;
 
 public abstract class Event
 {

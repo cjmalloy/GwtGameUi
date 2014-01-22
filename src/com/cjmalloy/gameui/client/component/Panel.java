@@ -3,6 +3,9 @@ package com.cjmalloy.gameui.client.component;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.cjmalloy.gameui.client.core.HasChildren;
+import com.cjmalloy.gameui.client.core.UiElement;
+import com.cjmalloy.gameui.client.core.UiProxy;
 import com.cjmalloy.gameui.client.event.EventBus;
 import com.google.gwt.canvas.dom.client.Context2d;
 

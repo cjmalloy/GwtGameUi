@@ -2,7 +2,7 @@ package com.cjmalloy.gameui.client.anim;
 
 import com.cjmalloy.gameui.client.anim.ease.Easing;
 import com.cjmalloy.gameui.client.anim.ease.EasingFn;
-import com.cjmalloy.gameui.client.component.UiElement;
+import com.cjmalloy.gameui.client.core.UiElement;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;

@@ -1,5 +1,6 @@
 package com.cjmalloy.gameui.client.component;
 
+import com.cjmalloy.gameui.client.core.UiElement;
 import com.cjmalloy.gameui.client.event.DragCancelEvent;
 import com.cjmalloy.gameui.client.event.DragEndEvent;
 import com.cjmalloy.gameui.client.event.DragMoveEvent;

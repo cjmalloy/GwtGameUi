@@ -1,5 +1,7 @@
 package com.cjmalloy.gameui.client.component;
 
+import com.cjmalloy.gameui.client.core.UiElement;
+import com.cjmalloy.gameui.client.core.UiProxy;
 import com.cjmalloy.gameui.client.event.EventBus;
 import com.cjmalloy.gameui.client.event.MouseDownEvent;
 import com.cjmalloy.gameui.client.event.MouseDownHandler;

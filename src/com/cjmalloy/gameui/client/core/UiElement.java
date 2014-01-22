@@ -1,6 +1,6 @@
-package com.cjmalloy.gameui.client.component;
+package com.cjmalloy.gameui.client.core;
 
-import com.cjmalloy.gameui.client.core.Renderer;
+import com.cjmalloy.gameui.client.component.Panel;
 import com.cjmalloy.gameui.client.event.EventBus;
 import com.cjmalloy.gameui.client.event.HasMouseHandlers;
 import com.cjmalloy.gameui.client.event.MouseClickEvent;

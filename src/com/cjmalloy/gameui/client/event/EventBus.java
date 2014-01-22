@@ -5,8 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.cjmalloy.gameui.client.component.UiElement;
-import com.cjmalloy.gameui.client.component.UiProxy;
+import com.cjmalloy.gameui.client.core.UiElement;
+import com.cjmalloy.gameui.client.core.UiProxy;
 import com.google.gwt.event.shared.HandlerRegistration;
 
 public class EventBus

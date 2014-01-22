@@ -1,5 +1,8 @@
 package com.cjmalloy.gameui.client.component;
 
+import com.cjmalloy.gameui.client.core.UiElement;
+import com.cjmalloy.gameui.client.core.UiProxy;
+
 
 public class Flipper implements UiProxy
 {
