@@ -29,8 +29,6 @@ public class Button extends UiElement implements MouseDownHandler, MouseMoveHand
         DOWN_DISABLED,
     }
 
-    public static ButtonSkin DEFAULT_BUTTON_SKIN = new DefaultButtonSkin();
-
     public boolean toggle = false;
     public boolean cache = false;
 
@@ -49,7 +47,7 @@ public class Button extends UiElement implements MouseDownHandler, MouseMoveHand
     {
         super();
 
-        setButtonSkin(DEFAULT_BUTTON_SKIN);
+        setButtonSkin(new DefaultButtonSkin());
 
         addMouseClickHandler(this);
         addMouseUpHandler(this);
