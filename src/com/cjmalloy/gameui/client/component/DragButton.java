@@ -19,8 +19,6 @@ public class DragButton extends DragElement
         DRAGGING,
     }
 
-    public static DragButtonSkin DEFAULT_DRAG_BUTTON_SKIN = new DefaultDragButtonSkin();
-
     protected DragButtonSkin skin;
     protected DragButtonState state = DragButtonState.UP;
 
@@ -29,7 +27,7 @@ public class DragButton extends DragElement
         super();
 
         anim = new DragButtonAnimation();
-        setButtonSkin(DEFAULT_DRAG_BUTTON_SKIN);
+        setButtonSkin(new DefaultDragButtonSkin());
     }
 
     @Override
