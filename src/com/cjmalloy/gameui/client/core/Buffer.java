@@ -29,6 +29,12 @@ public class Buffer
         x.drawImage(canvas.getCanvasElement(), 0, 0);
     }
 
+    public void render()
+    {
+        g.clearRect(0, 0, width, height);
+        renderer.render(g, 0);
+    }
+
     public void resize(int width, int height)
     {
         if (this.width == width && this.height == height) return;
@@ -36,7 +42,7 @@ public class Buffer
         this.width = width;
         this.height = height;
         GraphicsUtil.resizeCanvas(canvas, width, height);
-        renderer.render(g, 0);
+        render();
     }
 
 }
