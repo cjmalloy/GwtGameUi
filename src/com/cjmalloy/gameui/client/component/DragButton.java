@@ -109,8 +109,8 @@ public class DragButton extends DragElement
             redrawNeeded = false;
             g.save();
             g.translate(x, y);
-            skin.width = width;
-            skin.height = height;
+            skin.width = width = DragButton.this.width;
+            skin.height = height = DragButton.this.height;
             skin.getRenderer(DragButtonState.UP).render(g, timestamp);
             g.restore();
         }
