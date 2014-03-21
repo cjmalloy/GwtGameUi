@@ -2,25 +2,17 @@ package com.cjmalloy.gameui.client.component;
 
 import com.cjmalloy.gameui.client.component.skin.DefaultDragButtonSkin;
 import com.cjmalloy.gameui.client.component.skin.DragButtonSkin;
+import com.cjmalloy.gameui.client.core.CacheMap;
 import com.google.gwt.canvas.dom.client.Context2d;
 
 public class DragButton extends DragElement
 {
-    public enum DragButtonState
-    {
-        UP,
-        UP_PRESSED,
-        UP_HOVERING,
-        UP_DISABLED,
-        DOWN,
-        DOWN_PRESSED,
-        DOWN_HOVERING,
-        DOWN_DISABLED,
-        DRAGGING,
-    }
+    public boolean cache = false;
 
     protected DragButtonSkin skin;
     protected DragButtonState state = DragButtonState.UP;
+
+    private CacheMap<DragButtonState> cacheMap = null;
 
     public DragButton()
     {
@@ -37,10 +29,27 @@ public class DragButton extends DragElement
         redrawNeeded = false;
         g.save();
         g.translate(x, y);
+        if (cache)
+        {
+            ensureCache().render(g, state);
+        }
+        else
+        {
+            skin.getRenderer(state).render(g, timestamp);
+        }
+        g.restore();
+    }
+
+    @Override
+    public void resize(int w, int h)
+    {
+        super.resize(w, h);
         skin.width = width;
         skin.height = height;
-        skin.getRenderer(state).render(g, timestamp);
-        g.restore();
+        if (cacheMap != null)
+        {
+            cacheMap.resize(w, h);
+        }
     }
 
     public void setButtonSkin(DragButtonSkin skin)
@@ -60,6 +69,19 @@ public class DragButton extends DragElement
     public void setText(String text)
     {
         skin.setText(text);
+        if (cacheMap != null)
+        {
+            cacheMap.clear();
+        }
+    }
+
+    protected CacheMap<DragButtonState> ensureCache()
+    {
+        if (cacheMap == null)
+        {
+            cacheMap = new CacheMap<DragButtonState>(skin, width, height);
+        }
+        return cacheMap;
     }
 
     protected void updateState()
@@ -86,11 +108,11 @@ public class DragButton extends DragElement
             s = DragButtonState.UP;
         }
 
-        if (state != s)
+        if (skin.getRenderer(state) != skin.getRenderer(s))
         {
-            state = s;
             redrawNeeded = true;
         }
+        state = s;
 
         anim.setVisible(isDragging());
     }
@@ -115,4 +137,17 @@ public class DragButton extends DragElement
             g.restore();
         }
     }
+    public enum DragButtonState
+    {
+        UP,
+        UP_PRESSED,
+        UP_HOVERING,
+        UP_DISABLED,
+        DOWN,
+        DOWN_PRESSED,
+        DOWN_HOVERING,
+        DOWN_DISABLED,
+        DRAGGING,
+    }
+
 }

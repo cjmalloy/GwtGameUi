@@ -17,32 +17,20 @@ import com.google.gwt.canvas.dom.client.Context2d;
 
 public class Button extends UiElement implements MouseDownHandler, MouseMoveHandler, MouseUpHandler, MouseClickHandler
 {
-    public enum ButtonState
-    {
-        UP,
-        UP_PRESSED,
-        UP_HOVERING,
-        UP_DISABLED,
-        DOWN,
-        DOWN_PRESSED,
-        DOWN_HOVERING,
-        DOWN_DISABLED,
-    }
-
     public boolean toggle = false;
-    public boolean cache = false;
 
+    public boolean cache = false;
     protected ButtonSkin skin;
+
     protected ButtonState state = ButtonState.UP;
     protected boolean down = false;
-
     private boolean pressed;
+
     private boolean hovering;
     private boolean disabled;
-
     private boolean allowClick = false;
-    private CacheMap<ButtonState> cacheMap = null;
 
+    private CacheMap<ButtonState> cacheMap = null;
     public Button()
     {
         super();
@@ -115,11 +103,7 @@ public class Button extends UiElement implements MouseDownHandler, MouseMoveHand
         g.translate(x, y);
         if (cache)
         {
-            if (cacheMap == null)
-            {
-                cacheMap = new CacheMap<ButtonState>(skin, width, height);
-            }
-            cacheMap.render(g, state);
+            ensureCache().render(g, state);
         }
         else
         {
@@ -167,6 +151,15 @@ public class Button extends UiElement implements MouseDownHandler, MouseMoveHand
         }
     }
 
+    protected CacheMap<ButtonState> ensureCache()
+    {
+        if (cacheMap == null)
+        {
+            cacheMap = new CacheMap<ButtonState>(skin, width, height);
+        }
+        return cacheMap;
+    }
+
     protected void updateState()
     {
         ButtonState s;
@@ -209,11 +202,11 @@ public class Button extends UiElement implements MouseDownHandler, MouseMoveHand
             }
         }
 
-        if (state != s)
+        if (skin.getRenderer(state) != skin.getRenderer(s))
         {
-            state = s;
             redrawNeeded = true;
         }
+        state = s;
     }
 
     private void createClick(int x, int y)
@@ -224,5 +217,17 @@ public class Button extends UiElement implements MouseDownHandler, MouseMoveHand
         click.y = y;
         EventBus.get().fireEvent(click);
         allowClick = false;
+    }
+
+    public enum ButtonState
+    {
+        UP,
+        UP_PRESSED,
+        UP_HOVERING,
+        UP_DISABLED,
+        DOWN,
+        DOWN_PRESSED,
+        DOWN_HOVERING,
+        DOWN_DISABLED,
     }
 }
