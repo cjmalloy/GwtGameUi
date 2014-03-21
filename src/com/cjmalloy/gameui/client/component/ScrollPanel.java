@@ -65,7 +65,7 @@ public class ScrollPanel extends Panel implements MouseUpHandler, MouseDownHandl
     @Override
     public HandlerRegistration addMouseWheelHandler(MouseWheelHandler handler)
     {
-        return EventBus.get().addHandler(this, handler, MouseWheelEvent.TYPE, true);
+        return addHandler(handler, MouseWheelEvent.TYPE, true);
     }
 
     public void resizeContent()
