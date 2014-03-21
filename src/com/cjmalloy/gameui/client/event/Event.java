@@ -31,7 +31,10 @@ public abstract class Event
 
     public void setCapture(UiElement element)
     {
-        eventBus.capture = element;
+        if (!eventBus.capture.contains(element))
+        {
+            eventBus.capture.add(element);
+        }
     }
 
     public void stopPropogation()

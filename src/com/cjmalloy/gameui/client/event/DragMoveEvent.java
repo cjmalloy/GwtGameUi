@@ -25,7 +25,7 @@ public class DragMoveEvent extends DragEvent
         if (!(handler instanceof DragMoveHandler)) { throw new InvalidEventHandlerError(); }
         if (!source.isMouseEnabled()) return;
 
-        if (EventBus.get().capture == source || containsPoint())
+        if (EventBus.get().capture.contains(source) || containsPoint())
         {
             DragMoveHandler h = (DragMoveHandler) handler;
             h.onDragMove(this);

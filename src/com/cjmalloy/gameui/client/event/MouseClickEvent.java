@@ -25,7 +25,7 @@ public class MouseClickEvent extends MouseEvent
         if (!(handler instanceof MouseClickHandler)) { throw new InvalidEventHandlerError(); }
         if (!source.isMouseEnabled()) return;
 
-        if (EventBus.get().capture == source || containsPoint())
+        if (EventBus.get().capture.contains(source) || containsPoint())
         {
             MouseClickHandler h = (MouseClickHandler) handler;
             h.onMouseClick(this);

@@ -25,7 +25,7 @@ public class MouseMoveEvent extends MouseEvent
         if (!(handler instanceof MouseMoveHandler)) { throw new InvalidEventHandlerError(); }
         if (!source.isMouseEnabled()) return;
 
-        if (EventBus.get().capture == source || containsPoint())
+        if (EventBus.get().capture.contains(source) || containsPoint())
         {
             MouseMoveHandler h = (MouseMoveHandler) handler;
             h.onMouseMove(this);

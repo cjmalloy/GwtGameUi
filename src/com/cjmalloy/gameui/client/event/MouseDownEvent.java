@@ -25,7 +25,7 @@ public class MouseDownEvent extends MouseEvent
         if (!(handler instanceof MouseDownHandler)) { throw new InvalidEventHandlerError(); }
         if (!source.isMouseEnabled()) return;
 
-        if (EventBus.get().capture == source || containsPoint())
+        if (EventBus.get().capture.contains(source) || containsPoint())
         {
             MouseDownHandler h = (MouseDownHandler) handler;
             h.onMouseDown(this);

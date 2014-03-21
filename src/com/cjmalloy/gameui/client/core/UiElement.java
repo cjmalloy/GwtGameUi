@@ -2,6 +2,8 @@ package com.cjmalloy.gameui.client.core;
 
 import com.cjmalloy.gameui.client.component.Panel;
 import com.cjmalloy.gameui.client.event.EventBus;
+import com.cjmalloy.gameui.client.event.EventHandler;
+import com.cjmalloy.gameui.client.event.EventType;
 import com.cjmalloy.gameui.client.event.HasMouseHandlers;
 import com.cjmalloy.gameui.client.event.MouseClickEvent;
 import com.cjmalloy.gameui.client.event.MouseClickHandler;
@@ -48,34 +50,44 @@ public abstract class UiElement implements UiProxy, Renderer, HasMouseHandlers
         this.height = height;
     }
 
+    public HandlerRegistration addHandler(EventHandler handler, EventType<?> type)
+    {
+        return addHandler(handler, type, false);
+    }
+
+    public HandlerRegistration addHandler(EventHandler handler, EventType<?> type, boolean ignoresCapture)
+    {
+        return EventBus.get().addHandler(this, handler, type, ignoresCapture);
+    }
+
     @Override
     public HandlerRegistration addMouseClickHandler(MouseClickHandler handler)
     {
-        return EventBus.get().addHandler(this, handler, MouseClickEvent.TYPE, false);
+        return addHandler(handler, MouseClickEvent.TYPE);
     }
 
     @Override
     public HandlerRegistration addMouseDownHandler(MouseDownHandler handler)
     {
-        return EventBus.get().addHandler(this, handler, MouseDownEvent.TYPE, false);
+        return addHandler(handler, MouseDownEvent.TYPE);
     }
 
     @Override
     public HandlerRegistration addMouseMoveHandler(MouseMoveHandler handler)
     {
-        return EventBus.get().addHandler(this, handler, MouseMoveEvent.TYPE, false);
+        return addHandler(handler, MouseMoveEvent.TYPE);
     }
 
     @Override
     public HandlerRegistration addMouseUpHandler(MouseUpHandler handler)
     {
-        return EventBus.get().addHandler(this, handler, MouseUpEvent.TYPE, false);
+        return addHandler(handler, MouseUpEvent.TYPE);
     }
 
     @Override
     public HandlerRegistration addMouseWheelHandler(MouseWheelHandler handler)
     {
-        return EventBus.get().addHandler(this, handler, MouseWheelEvent.TYPE, false);
+        return addHandler(handler, MouseWheelEvent.TYPE);
     }
 
     public UiElement getElement()

@@ -96,6 +96,8 @@ public class Panel extends UiElement implements HasChildren
     public void render(Context2d g, double timestamp)
     {
         if (!isVisible()) { return; }
+        redrawNeeded = false;
+
         g.save();
         g.translate(x, y);
         if (clip)
@@ -109,6 +111,5 @@ public class Panel extends UiElement implements HasChildren
             c.render(g, timestamp);
         }
         g.restore();
-        redrawNeeded = false;
     }
 }

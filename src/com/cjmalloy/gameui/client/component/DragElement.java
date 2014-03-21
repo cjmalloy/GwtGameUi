@@ -84,8 +84,9 @@ public abstract class DragElement extends UiElement implements MouseDownHandler,
             hovering = true;
             if (dragging)
             {
-                cancelDrag(event);
                 event.releaseCapture(this);
+                cancelDrag(event);
+                event.setCapture(this);
             }
         }
         else
@@ -94,12 +95,14 @@ public abstract class DragElement extends UiElement implements MouseDownHandler,
             {
                 if (draggable)
                 {
+                    event.releaseCapture(this);
                     moveDrag(event);
+                    event.setCapture(this);
                 }
                 else
                 {
-                    cancelDrag(event);
                     event.releaseCapture(this);
+                    cancelDrag(event);
                 }
             }
             else if (pressed && draggable)

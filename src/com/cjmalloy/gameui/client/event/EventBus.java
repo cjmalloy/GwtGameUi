@@ -14,7 +14,7 @@ public class EventBus
 
     private static final EventBus INSTANCE = new EventBus();
 
-    UiElement capture = null;
+    List<UiElement> capture = new ArrayList<UiElement>();
 
     private Map<EventType<? extends Event>, List<Listener>> map = new HashMap<EventType<? extends Event>, List<Listener>>();
     private Event lastMouseMoveEvent = null;
@@ -47,26 +47,24 @@ public class EventBus
         }
     }
 
-    public UiElement getCapture()
+    public List<UiElement> getCapture()
     {
         return capture;
     }
 
     public void releaseCapture(UiElement element)
     {
-        if (capture == element)
-        {
-            capture = null;
-        }
+        capture.remove(element);
     }
 
     public void validateCapture()
     {
-        if (null == capture) return;
-
-        if (capture.isDetached() || !capture.isMouseEnabled())
+        for (UiElement e : capture)
         {
-            capture = null;
+            if (e.isDetached() || !e.isMouseEnabled())
+            {
+                capture.remove(e);
+            }
         }
     }
 
@@ -99,7 +97,7 @@ public class EventBus
         List<Listener> listeners = ensureListeners(e.getType());
         for (Listener l : listeners)
         {
-            if (capture == null || l.ignoresCapture || l.source == capture)
+            if (capture.size() == 0 || l.ignoresCapture || capture.contains(l.source))
             {
                 e.stopPropogation = false;
                 e.source = l.source;

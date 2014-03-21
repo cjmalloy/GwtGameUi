@@ -24,7 +24,7 @@ public class DragStartEvent extends DragEvent
         if (!(handler instanceof DragStartHandler)) { throw new InvalidEventHandlerError(); }
         if (!source.isMouseEnabled()) return;
 
-        if (EventBus.get().capture == source || containsPoint())
+        if (EventBus.get().capture.contains(source) || containsPoint())
         {
             DragStartHandler h = (DragStartHandler) handler;
             h.onDragStart(this);
