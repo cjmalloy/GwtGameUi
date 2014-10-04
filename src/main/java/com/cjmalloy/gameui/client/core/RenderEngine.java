@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.cjmalloy.gameui.client.component.Panel;
+import com.cjmalloy.gameui.client.core.debug.Stats;
 import com.cjmalloy.gameui.client.event.EventBus;
 import com.cjmalloy.gameui.client.event.MouseClickEvent;
 import com.cjmalloy.gameui.client.event.MouseDownEvent;
@@ -18,7 +19,6 @@ import com.google.gwt.animation.client.AnimationScheduler;
 import com.google.gwt.animation.client.AnimationScheduler.AnimationCallback;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
-import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.event.dom.client.HasMouseDownHandlers;
 import com.google.gwt.event.dom.client.HasMouseMoveHandlers;
 import com.google.gwt.event.dom.client.HasMouseUpHandlers;
@@ -52,39 +52,6 @@ import com.google.gwt.user.client.ui.Composite;
 public class RenderEngine extends Composite implements HasMouseDownHandlers, HasMouseUpHandlers, HasMouseMoveHandlers,
         HasMouseWheelHandlers, MouseDownHandler, MouseUpHandler, MouseMoveHandler, MouseWheelHandler
 {
-
-    /* ************************************************
-     *                 DEBUG                          *
-     **************************************************/
-    private JavaScriptObject stats;
-
-    public void attachProfiler()
-    {
-        if (null == stats)
-        {
-            stats = createStats();
-        }
-    }
-    private static final native void begin(JavaScriptObject stats) /*-{
-        stats.begin();
-    }-*/;
-
-    private static final native JavaScriptObject createStats() /*-{
-        var stats = new $wnd.Stats();
-        stats.setMode(0); // 0: fps, 1: ms
-
-        // Align top-left
-        stats.domElement.style.cssFloat = 'right';
-
-        $doc.body.appendChild(stats.domElement);
-
-        return stats;
-    }-*/;
-
-    private static final native void end(JavaScriptObject stats) /*-{
-        stats.end();
-    }-*/;
-    /* ************************************************/
 
     private static final int MAX_CLICK_DIST_SQUARED = 16;
     private static final int RESIZE_DELAY = 30;
@@ -120,6 +87,8 @@ public class RenderEngine extends Composite implements HasMouseDownHandlers, Has
     private int height;
 
     private Point clickStart = new Point();
+
+    private Stats stats = Stats.get();
 
     public RenderEngine(int width, int height)
     {
@@ -277,18 +246,12 @@ public class RenderEngine extends Composite implements HasMouseDownHandlers, Has
 
     protected void render(double timestamp)
     {
-        if (null != stats)
-        {
-            begin(stats);
-        }
+        stats.begin();
         for (Layer l : layers)
         {
             l.render(timestamp);
         }
-        if (null != stats)
-        {
-            end(stats);
-        }
+        stats.end();
     }
 
     private class Layer extends Composite
