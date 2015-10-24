@@ -14,7 +14,7 @@ import com.cjmalloy.gameui.client.event.MouseMoveEvent;
 import com.cjmalloy.gameui.client.event.MouseMoveHandler;
 import com.cjmalloy.gameui.client.event.MouseUpEvent;
 import com.cjmalloy.gameui.client.event.MouseUpHandler;
-import com.cjmalloy.gameui.shared.core.Point;
+import com.cjmalloy.mathlib.shared.screen.Point;
 
 public abstract class DragElement extends UiElement implements MouseDownHandler, MouseMoveHandler, MouseUpHandler
 {
