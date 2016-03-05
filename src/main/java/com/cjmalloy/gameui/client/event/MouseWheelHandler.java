@@ -1,7 +1,6 @@
 package com.cjmalloy.gameui.client.event;
 
-public interface MouseWheelHandler extends EventHandler
-{
+public interface MouseWheelHandler extends EventHandler {
 
-    void onMouseWheel(MouseWheelEvent event);
+  void onMouseWheel(MouseWheelEvent event);
 }

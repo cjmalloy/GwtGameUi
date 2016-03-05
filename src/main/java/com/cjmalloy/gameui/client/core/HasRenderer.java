@@ -1,8 +1,7 @@
 package com.cjmalloy.gameui.client.core;
 
 
-public interface HasRenderer<T>
-{
+public interface HasRenderer<T> {
 
-    Renderer getRenderer(T t);
+  Renderer getRenderer(T t);
 }

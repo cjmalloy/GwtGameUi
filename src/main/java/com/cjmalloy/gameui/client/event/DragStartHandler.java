@@ -1,7 +1,6 @@
 package com.cjmalloy.gameui.client.event;
 
-public interface DragStartHandler extends EventHandler
-{
+public interface DragStartHandler extends EventHandler {
 
-    void onDragStart(DragStartEvent event);
+  void onDragStart(DragStartEvent event);
 }

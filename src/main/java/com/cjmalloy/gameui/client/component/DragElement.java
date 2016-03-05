@@ -14,198 +14,169 @@ import com.cjmalloy.gameui.client.event.MouseMoveEvent;
 import com.cjmalloy.gameui.client.event.MouseMoveHandler;
 import com.cjmalloy.gameui.client.event.MouseUpEvent;
 import com.cjmalloy.gameui.client.event.MouseUpHandler;
-import com.cjmalloy.mathlib.shared.screen.Point;
+import com.cjmalloy.math.shared.screen.Point;
 
-public abstract class DragElement extends UiElement implements MouseDownHandler, MouseMoveHandler, MouseUpHandler
-{
-    protected UiElement anim = null;
-    protected Point startDragPoint;
+public abstract class DragElement extends UiElement implements MouseDownHandler, MouseMoveHandler,
+    MouseUpHandler {
+  protected UiElement anim = null;
+  protected Point startDragPoint;
 
-    private boolean pressed;
-    private boolean hovering;
-    private boolean disabled;
-    private boolean dragging;
+  private boolean pressed;
+  private boolean hovering;
+  private boolean disabled;
+  private boolean dragging;
 
-    private boolean draggable = true;
+  private boolean draggable = true;
 
-    public DragElement()
-    {
-        super();
+  /**
+   * Constructor.
+   */
+  public DragElement() {
+    super();
 
-        addMouseUpHandler(this);
-        addMouseDownHandler(this);
-        addMouseMoveHandler(this);
-    }
+    addMouseUpHandler(this);
+    addMouseDownHandler(this);
+    addMouseMoveHandler(this);
+  }
 
-    public UiElement getAnimationLayer()
-    {
-        return anim;
-    }
+  public UiElement getAnimationLayer() {
+    return anim;
+  }
 
-    public boolean isDisabled()
-    {
-        return disabled;
-    }
+  public boolean isDisabled() {
+    return disabled;
+  }
 
-    public boolean isDraggable()
-    {
-        return draggable;
-    }
+  public boolean isDraggable() {
+    return draggable;
+  }
 
-    public boolean isDragging()
-    {
-        return dragging;
-    }
+  public boolean isDragging() {
+    return dragging;
+  }
 
-    public boolean isHovering()
-    {
-        return hovering;
-    }
+  public boolean isHovering() {
+    return hovering;
+  }
 
-    public boolean isPressed()
-    {
-        return pressed;
-    }
+  public boolean isPressed() {
+    return pressed;
+  }
 
-    @Override
-    public void onMouseDown(MouseDownEvent event)
-    {
-        startDragPoint = event.getPoint();
-        pressed = true;
-        updateState();
-    }
+  @Override
+  public void onMouseDown(MouseDownEvent event) {
+    startDragPoint = event.getPoint();
+    pressed = true;
+    updateState();
+  }
 
-    @Override
-    public void onMouseMove(MouseMoveEvent event)
-    {
-        event.setCapture(this);
-        if (event.containsPoint())
-        {
-            hovering = true;
-            if (dragging)
-            {
-                event.releaseCapture(this);
-                cancelDrag(event);
-                event.setCapture(this);
-            }
-        }
-        else
-        {
-            if (dragging)
-            {
-                if (draggable)
-                {
-                    event.releaseCapture(this);
-                    moveDrag(event);
-                    event.setCapture(this);
-                }
-                else
-                {
-                    event.releaseCapture(this);
-                    cancelDrag(event);
-                }
-            }
-            else if (pressed && draggable)
-            {
-                startDrag(event);
-            }
-            else
-            {
-                event.releaseCapture(this);
-            }
-            hovering = false;
-            pressed = false;
-        }
-        updateState();
-    }
-
-    @Override
-    public void onMouseUp(MouseUpEvent event)
-    {
+  @Override
+  public void onMouseMove(MouseMoveEvent event) {
+    event.setCapture(this);
+    if (event.containsPoint()) {
+      hovering = true;
+      if (dragging) {
         event.releaseCapture(this);
-        pressed = false;
-        if (dragging)
-        {
-            endDrag(event);
+        cancelDrag(event);
+        event.setCapture(this);
+      }
+    } else {
+      if (dragging) {
+        if (draggable) {
+          event.releaseCapture(this);
+          moveDrag(event);
+          event.setCapture(this);
+        } else {
+          event.releaseCapture(this);
+          cancelDrag(event);
         }
+      } else if (pressed && draggable) {
+        startDrag(event);
+      } else {
+        event.releaseCapture(this);
+      }
+      hovering = false;
+      pressed = false;
+    }
+    updateState();
+  }
 
-        updateState();
+  @Override
+  public void onMouseUp(MouseUpEvent event) {
+    event.releaseCapture(this);
+    pressed = false;
+    if (dragging) {
+      endDrag(event);
     }
 
-    public void setDraggable(boolean value)
-    {
-        draggable = value;
-    }
+    updateState();
+  }
 
-    protected Event getDragCancelEvent(MouseEvent event)
-    {
-        DragCancelEvent e = new DragCancelEvent();
-        e.x = event.x;
-        e.y = event.y;
-        e.dragSource = this;
-        return e;
-    }
+  public void setDraggable(boolean value) {
+    draggable = value;
+  }
 
-    protected Event getDragEndEvent(MouseEvent event)
-    {
-        DragEndEvent e = new DragEndEvent();
-        e.x = event.x;
-        e.y = event.y;
-        e.dragSource = this;
-        return e;
-    }
+  protected Event getDragCancelEvent(MouseEvent event) {
+    DragCancelEvent e = new DragCancelEvent();
+    e.x = event.x;
+    e.y = event.y;
+    e.dragSource = this;
+    return e;
+  }
 
-    protected Event getDragMoveEvent(MouseEvent event)
-    {
-        DragMoveEvent e = new DragMoveEvent();
-        e.x = event.x;
-        e.y = event.y;
-        e.dragSource = this;
-        return e;
-    }
+  protected Event getDragEndEvent(MouseEvent event) {
+    DragEndEvent e = new DragEndEvent();
+    e.x = event.x;
+    e.y = event.y;
+    e.dragSource = this;
+    return e;
+  }
 
-    protected Event getDragStartEvent(MouseEvent event)
-    {
-        DragStartEvent e = new DragStartEvent();
-        e.x = event.x;
-        e.y = event.y;
-        e.dragSource = this;
-        return e;
-    }
+  protected Event getDragMoveEvent(MouseEvent event) {
+    DragMoveEvent e = new DragMoveEvent();
+    e.x = event.x;
+    e.y = event.y;
+    e.dragSource = this;
+    return e;
+  }
 
-    protected void updateAnimation(MouseEvent event)
-    {
-        Point delta = event.getPoint().subtract(startDragPoint);
-        anim.moveTo(localToGlobal(delta));
-    }
+  protected Event getDragStartEvent(MouseEvent event) {
+    DragStartEvent e = new DragStartEvent();
+    e.x = event.x;
+    e.y = event.y;
+    e.dragSource = this;
+    return e;
+  }
 
-    protected abstract void updateState();
+  protected void updateAnimation(MouseEvent event) {
+    Point delta = event.getPoint().subtract(startDragPoint);
+    anim.moveTo(localToGlobal(delta));
+  }
 
-    private void cancelDrag(MouseMoveEvent event)
-    {
-        dragging = false;
-        EventBus.get().fireEvent(getDragCancelEvent(event));
-    }
+  protected abstract void updateState();
 
-    private void endDrag(MouseUpEvent event)
-    {
-        dragging = false;
-        EventBus.get().fireEvent(getDragEndEvent(event));
-    }
+  private void cancelDrag(MouseMoveEvent event) {
+    dragging = false;
+    EventBus.get().fireEvent(getDragCancelEvent(event));
+  }
 
-    private void moveDrag(MouseMoveEvent event)
-    {
-        updateAnimation(event);
-        EventBus.get().fireEvent(getDragMoveEvent(event));
-    }
+  private void endDrag(MouseUpEvent event) {
+    dragging = false;
+    EventBus.get().fireEvent(getDragEndEvent(event));
+  }
 
-    private void startDrag(MouseMoveEvent event)
-    {
-        dragging = true;
-        updateAnimation(event);
-        EventBus.get().fireEvent(getDragStartEvent(event));
-    }
+  private void moveDrag(MouseMoveEvent event) {
+    updateAnimation(event);
+    EventBus.get().fireEvent(getDragMoveEvent(event));
+  }
 
-    public abstract class DragAnimation extends UiElement {}
+  private void startDrag(MouseMoveEvent event) {
+    dragging = true;
+    updateAnimation(event);
+    EventBus.get().fireEvent(getDragStartEvent(event));
+  }
+
+  public abstract class DragAnimation extends UiElement {
+  }
 
 }

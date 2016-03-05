@@ -1,7 +1,6 @@
 package com.cjmalloy.gameui.client.event;
 
-public interface MouseUpHandler extends EventHandler
-{
+public interface MouseUpHandler extends EventHandler {
 
-    void onMouseUp(MouseUpEvent event);
+  void onMouseUp(MouseUpEvent event);
 }

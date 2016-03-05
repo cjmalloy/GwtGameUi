@@ -1,6 +1,5 @@
 package com.cjmalloy.gameui.client.event;
 
-public interface EventHandler
-{
+public interface EventHandler {
 
 }

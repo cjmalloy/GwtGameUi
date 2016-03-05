@@ -1,7 +1,6 @@
 package com.cjmalloy.gameui.client.event;
 
-public interface MouseClickHandler extends EventHandler
-{
+public interface MouseClickHandler extends EventHandler {
 
-    void onMouseClick(MouseClickEvent event);
+  void onMouseClick(MouseClickEvent event);
 }

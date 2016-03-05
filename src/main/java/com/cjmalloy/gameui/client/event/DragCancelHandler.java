@@ -1,7 +1,6 @@
 package com.cjmalloy.gameui.client.event;
 
-public interface DragCancelHandler extends EventHandler
-{
+public interface DragCancelHandler extends EventHandler {
 
-    void onDragCancel(DragCancelEvent event);
+  void onDragCancel(DragCancelEvent event);
 }

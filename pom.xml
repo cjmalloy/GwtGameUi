@@ -5,21 +5,47 @@
   <groupId>com.cjmalloy</groupId>
   <artifactId>gwt-game-ui</artifactId>
   <packaging>jar</packaging>
-  <version>1.0</version>
+  <version>1.1</version>
   <name>GWT Game UI</name>
 
   <properties>
     <maven.compiler.target>1.7</maven.compiler.target>
     <maven.compiler.source>1.7</maven.compiler.source>
-    <gwtVersion>2.6.1</gwtVersion>
+    <gwtVersion>2.7.0</gwtVersion>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
+  
+  <description>
+    Lightweight canvas based UI library.
+  </description>
+  <url>http://cjmalloy.com/#gwtgameui</url>
+
+  <scm>
+    <connection>scm:git:git://github.com/cjmalloy/GwtGameUi.git</connection>
+    <developerConnection>scm:git:ssh://git@github.com/cjmalloy/GwtGameUi.git</developerConnection>
+    <url>http://github.com/cjmalloy/GwtGameUi</url>
+    <tag>master</tag>
+  </scm>
+
+  <issueManagement>
+    <system>GitHub</system>
+    <url>https://github.com/cjmalloy/GwtGameUi/issues</url>
+  </issueManagement>
+
+  <developers>
+    <developer>
+      <email>cjmalloy@gmail.com</email>
+      <name>Chris Malloy</name>
+      <url>https://cjmalloy.com</url>
+      <id>cjmalloy</id>
+    </developer>
+  </developers>
 
   <dependencies>
     <dependency>
       <groupId>com.cjmalloy</groupId>
       <artifactId>gwt-math</artifactId>
-      <version>1.0</version>
+      <version>1.1</version>
     </dependency>
     
     <dependency>
@@ -45,6 +71,73 @@
         <directory>${basedir}/src/main/resources</directory>
       </resource>
     </resources>
+    
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>attach-sources</id>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>attach-javadocs</id>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-gpg-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>sign-artifacts</id>
+            <phase>verify</phase>
+            <goals>
+              <goal>sign</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-checkstyle-plugin</artifactId>
+        <version>2.17</version>
+        <configuration>
+          <configLocation>cjmalloy_checks.xml</configLocation>
+          <violationSeverity>warning</violationSeverity>
+        </configuration>
+        <dependencies>
+          <dependency>
+            <groupId>com.puppycrawl.tools</groupId>
+            <artifactId>checkstyle</artifactId>
+            <version>6.16.1</version>
+          </dependency>
+        </dependencies>
+      </plugin>
+    </plugins>
   </build>
+
+  <distributionManagement>
+    <snapshotRepository>
+      <id>ossrh</id>
+      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+    </snapshotRepository>
+    <repository>
+      <id>ossrh</id>
+      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+    </repository>
+  </distributionManagement>
 
 </project>

@@ -3,8 +3,7 @@ package com.cjmalloy.gameui.client.event;
 import com.google.gwt.event.shared.HandlerRegistration;
 
 
-public interface HasDragEndHandlers
-{
+public interface HasDragEndHandlers {
 
-    HandlerRegistration addDragEndHandler(DragEndHandler handler);
+  HandlerRegistration addDragEndHandler(DragEndHandler handler);
 }

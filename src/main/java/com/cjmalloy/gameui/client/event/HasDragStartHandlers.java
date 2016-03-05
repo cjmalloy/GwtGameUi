@@ -3,8 +3,7 @@ package com.cjmalloy.gameui.client.event;
 import com.google.gwt.event.shared.HandlerRegistration;
 
 
-public interface HasDragStartHandlers
-{
+public interface HasDragStartHandlers {
 
-    HandlerRegistration addDragStartHandler(DragStartHandler handler);
+  HandlerRegistration addDragStartHandler(DragStartHandler handler);
 }
