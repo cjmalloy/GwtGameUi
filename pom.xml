@@ -2,11 +2,21 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>com.cjmalloy</groupId>
+  <parent>
+    <groupId>com.cjmalloy</groupId>
+    <artifactId>cjmalloy</artifactId>
+    <version>0.1</version>
+  </parent>
+
   <artifactId>gwt-game-ui</artifactId>
   <packaging>jar</packaging>
   <version>1.1</version>
   <name>GWT Game UI</name>
+
+  <description>
+    Lightweight canvas based UI library.
+  </description>
+  <url>http://cjmalloy.com/#gwtgameui</url>
 
   <properties>
     <maven.compiler.target>1.7</maven.compiler.target>
@@ -14,11 +24,6 @@
     <gwtVersion>2.7.0</gwtVersion>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
-  
-  <description>
-    Lightweight canvas based UI library.
-  </description>
-  <url>http://cjmalloy.com/#gwtgameui</url>
 
   <scm>
     <connection>scm:git:git://github.com/cjmalloy/GwtGameUi.git</connection>
@@ -31,22 +36,6 @@
     <system>GitHub</system>
     <url>https://github.com/cjmalloy/GwtGameUi/issues</url>
   </issueManagement>
-
-  <developers>
-    <developer>
-      <email>cjmalloy@gmail.com</email>
-      <name>Chris Malloy</name>
-      <url>https://cjmalloy.com</url>
-      <id>cjmalloy</id>
-    </developer>
-  </developers>
-  
-  <licenses>
-    <license>
-      <name>MIT license (also X11)</name>
-      <url>http://www.spdx.org/licenses/MIT</url>
-    </license>
-  </licenses>
 
   <dependencies>
     <dependency>
@@ -135,16 +124,4 @@
       </plugin>
     </plugins>
   </build>
-
-  <distributionManagement>
-    <snapshotRepository>
-      <id>ossrh</id>
-      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-    </snapshotRepository>
-    <repository>
-      <id>ossrh</id>
-      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-    </repository>
-  </distributionManagement>
-
 </project>
