@@ -6,3 +6,5 @@ cache:
 install:
 - curl -o $HOME/.m2/settings.xml
   https://raw.githubusercontent.com/cjmalloy/cjmalloy/master/mvn/settings.xml
+after_success:
+  - python <(curl -s https://raw.githubusercontent.com/TouK/sputnik-ci/master/sputnik-ci.py)
